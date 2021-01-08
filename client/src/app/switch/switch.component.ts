@@ -129,6 +129,7 @@ export class SwitchComponent implements OnInit {
   }
   //this method is get true/false from 'on' or 'off'
   getState(state: stateDevice) {
+    console.log(state)
     return state == 'on' ? true : state == 'off' ? false : new Error();
   }
 }

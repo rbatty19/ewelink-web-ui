@@ -1,4 +1,4 @@
-<div class="col-md-4" *ngIf="loadDevices">
+<!-- <div class="col-md-4" *ngIf="loadDevices">
   <div class="lds-spinner">
     <div></div>
     <div></div>
@@ -13,26 +13,35 @@
     <div></div>
     <div></div>
   </div>
-</div>
+</div> -->
 
 <div class="" *ngFor="let item of devices">
-  <h1>{{ item.name }}</h1>
-  <div class="row" style="height: 100px;">
-    <div class="col-md-4" style="background-color: aqua;">
-      <input type="button" (click)="changeState(item)" value="Change state">
+  <h4>{{ item.name }}</h4>
+  <div class="row" >
+    <div class="col-md-6">
+      <input type="button" (click)="changeState(item)" value="Change state" />
     </div>
-    <div
-      class="col-md-4
-    rotate"
-    >
-      <div class="switch" disabled="true">
+    <div class="col-md-6 rotate">
+      <!-- <div class="switch" disabled="true">
         <div>
           <input type="checkbox" [checked]="getState(item.state)" disabled />
           <div></div>
         </div>
+      </div> -->
+
+      <div>
+        <input
+          type="checkbox"
+          name="switch"
+          id="switch"
+          [checked]="getState(item.state)"
+          disabled
+        />
+        <label class="switch" for="switch"><!--<span></span>--></label>
       </div>
     </div>
-    <div class="col-md-4">
+
+    <!-- <div class="col-md-4">
       <div class="lds-spinner" *ngIf="item.request">
         <div></div>
         <div></div>
@@ -47,11 +56,10 @@
         <div></div>
         <div></div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
-<ng-template #customNotification >
-  <mat-spinner [diameter]="35">
-  </mat-spinner>
+<ng-template #customNotification>
+  <mat-spinner [diameter]="35"> </mat-spinner>
 </ng-template>
