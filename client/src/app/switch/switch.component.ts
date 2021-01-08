@@ -60,8 +60,8 @@ export class SwitchComponent implements OnInit {
       let newState = item.state == "off" ? "on" : "off";
 
       let actionParams = {
-        at: this.auth.at,
-        apiKey: this.auth.user.apikey,
+        at: this.authData.at,
+        apiKey: this.authData.user.apikey,
         deviceId: item.deviceid,
         params: { switch: newState },
         // state: newState
