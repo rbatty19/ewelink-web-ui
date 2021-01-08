@@ -1,0 +1,21 @@
+{
+  "name": "api-ewe-link",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ewelink-api": "^2.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "quick-encrypt": "^1.0.8",
+    "write": "^2.0.0"
+  }
+}
