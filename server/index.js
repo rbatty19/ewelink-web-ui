@@ -52,11 +52,11 @@ app.post('/login', async (req, res) => {
     if (data.error) throw data.msg;
     res.send({ status: 200, error: false, data });
   } catch (error) {
-    res.status(401).send({ status: 401, error: true, data: error });
+    res.status(400).send({ status: 400, error: true, data: error });
   }
 });
 
-app.get('/devices', async (req, res) => {
+app.post('/devices', async (req, res) => {
   try {
 
     const {at, region} = req.body;
@@ -79,7 +79,7 @@ app.get('/devices', async (req, res) => {
 
     res.send({ status: 200, error: false, data: report });
   } catch (error) {
-    res.send({ status: 401, error: true, data: error }).status(401);
+    res.status(400).send({ status: 400, error: true, data: error });
   }
 });
 
@@ -95,7 +95,7 @@ app.post('/device', async (req, res) => {
     console.log(status);
     res.send({ status: 200, error: false, data: status });
   } else {
-    res.send({
+    res.status(400).send({
       status: 400,
       error: true,
       data: {
