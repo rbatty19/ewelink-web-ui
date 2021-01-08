@@ -58,6 +58,14 @@ app.post('/login', async (req, res) => {
 
 app.get('/devices', async (req, res) => {
   try {
+
+    const {at, region} = req.body;
+
+    connection = new ewelink({
+      at,
+      region     
+    });
+
     const devices = await connection.getDevices();
     // console.log(devices, devices.length);
     let report = [];
@@ -77,6 +85,12 @@ app.get('/devices', async (req, res) => {
 
 app.post('/device', async (req, res) => {
   if (req.body.deviceid) {
+
+    connection = new ewelink({
+      at,
+      region     
+    });
+
     const status = await connection.getDevicePowerState(req.body.deviceid);
     console.log(status);
     res.send({ status: 200, error: false, data: status });
@@ -159,6 +173,7 @@ app.post('/device', async (req, res) => {
 //     res.send({ msg: 'error', error: true }).status(400);
 //   }
 // });
+
 app.get('/', (req, res) => {
   res.send({
     message: 'Welcome to Ewelink API REST for Ewelink Web UI',
