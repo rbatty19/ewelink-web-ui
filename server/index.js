@@ -47,7 +47,10 @@ app.post('/login', async (req, res) => {
       password,
       // region: zone,
     });
-    res.send({ status: 200, error: false, data: await connection.getCredentials() });
+
+    const data = await connection.getCredentials();
+    if (data.error) throw data;
+    res.send({ status: 200, error: false, data });
   } catch (error) {
     res.send({ status: 400, error: true, data: error });
   }
