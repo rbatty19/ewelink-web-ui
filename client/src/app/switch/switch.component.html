@@ -19,10 +19,10 @@
   <h1>{{ item.name }}</h1>
   <div class="row" style="height: 100px;">
     <div class="col-md-4" style="background-color: aqua;">
-      <input type="button" (click)="changeState(item)" value="Change state"> 
+      <input type="button" (click)="changeState(item)" value="Change state">
     </div>
     <div
-      class="col-md-4 
+      class="col-md-4
     rotate"
     >
       <div class="switch" disabled="true">
@@ -50,3 +50,8 @@
     </div>
   </div>
 </div>
+
+<ng-template #customNotification >
+  <mat-spinner [diameter]="35">
+  </mat-spinner>
+</ng-template>

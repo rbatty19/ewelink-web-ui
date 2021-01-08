@@ -1,29 +1,38 @@
-import { Component, OnInit } from "@angular/core";
-import { SwitchService, stateDevice } from "../services/switch.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SwitchService, stateDevice } from '../services/switch.service';
 import {
   openWebSocketMixin,
   ChangeState
-} from "../services/socket.service";
-import { isString } from "util";
-import { Data, Router } from "@angular/router";
+} from '../services/socket.service';
+import { isString } from 'util';
+import { Data, Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
-  selector: "app-switch",
-  templateUrl: "./switch.component.html",
-  styleUrls: ["./switch.component.scss"]
+  selector: 'app-switch',
+  templateUrl: './switch.component.html',
+  styleUrls: ['./switch.component.scss']
 })
 export class SwitchComponent implements OnInit {
   public value1: boolean = false;
   public loadDevices = true;
   public devices: any[] = [];
-  public wsp: any = "";
+  public wsp: any = '';
   public authData: Data | any;
 
-  constructor(public switchService: SwitchService, private router: Router) {
+  @ViewChild("customNotification", { static: true }) customNotificationTmpl;
+
+  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService) {
     this.authData = JSON.parse(localStorage.getItem('data'));
   }
 
   ngOnInit() {
+    this.notifier.show({
+      message: "Loading",
+      type: "warining",
+      template: this.customNotificationTmpl,
+      id: 'loading'
+    });
   }
 
   async ngAfterViewInit() {
@@ -52,7 +61,7 @@ export class SwitchComponent implements OnInit {
     try {
       item.request = true;
 
-      let newState = item.state == "off" ? "on" : "off";
+      let newState = item.state == 'off' ? 'on' : 'off';
 
       let actionParams = {
         at: this.authData.at,
@@ -94,6 +103,7 @@ export class SwitchComponent implements OnInit {
       const { data }: any = await this.switchService.getDevices(this.authData).toPromise();
       this.devices = data;
       this.loadDevices = false;
+      this.notifier.hide('loading');
     } catch (error) {
       this.router.navigate(['/login']);
 
@@ -103,7 +113,7 @@ export class SwitchComponent implements OnInit {
   // this method change a device state by id
   async setStatus(status: boolean, deviceid: string) {
     try {
-      await this.switchService.setDeviceStatus(status ? "on" : "off", deviceid).toPromise();
+      await this.switchService.setDeviceStatus(status ? 'on' : 'off', deviceid).toPromise();
     } catch (error) {
       this.router.navigate(['/login']);
     }
@@ -117,8 +127,8 @@ export class SwitchComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-  //this method is get true/false from "on" or "off"
+  //this method is get true/false from 'on' or 'off'
   getState(state: stateDevice) {
-    return state == "on" ? true : state == "off" ? false : new Error();
+    return state == 'on' ? true : state == 'off' ? false : new Error();
   }
 }
