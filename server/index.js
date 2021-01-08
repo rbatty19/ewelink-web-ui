@@ -160,7 +160,7 @@ app.post('/device', async (req, res) => {
 //   }
 // });
 app.get('/', () => {
-  res.json({
+  res.send({
     message: 'Welcome to Ewelink API REST for Ewelink Web UI',
   });
 });
