@@ -1,0 +1,52 @@
+<div class="col-md-4" *ngIf="loadDevices">
+  <div class="lds-spinner">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+<div class="" *ngFor="let item of devices">
+  <h1>{{ item.name }}</h1>
+  <div class="row" style="height: 100px;">
+    <div class="col-md-4" style="background-color: aqua;">
+      <input type="button" (click)="changeState(item)" value="Change state"> 
+    </div>
+    <div
+      class="col-md-4 
+    rotate"
+    >
+      <div class="switch" disabled="true">
+        <div>
+          <input type="checkbox" [checked]="getState(item.state)" disabled />
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="lds-spinner" *ngIf="item.request">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
