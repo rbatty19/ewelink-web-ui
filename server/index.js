@@ -58,16 +58,15 @@ app.post('/login', async (req, res) => {
 
 app.post('/devices', async (req, res) => {
   try {
-
-    const {at, region} = req.body;
+    const { at, region } = req.body;
 
     connection = new ewelink({
       at,
-      region     
+      region,
     });
 
     const devices = await connection.getDevices();
-    console.log(devices);
+    // console.log(devices);
     let report = [];
 
     for (const device of devices) {
@@ -84,26 +83,29 @@ app.post('/devices', async (req, res) => {
 });
 
 app.post('/device', async (req, res) => {
-  if (req.body.deviceid) {
+  try {
+    if (req.body.deviceid) {
+      connection = new ewelink({
+        at,
+        region,
+      });
 
-    connection = new ewelink({
-      at,
-      region     
-    });
-
-    const status = await connection.getDevicePowerState(req.body.deviceid);
-    console.log(status);
-    res.send({ status: 200, error: false, data: status });
-  } else {
-    res.status(400).send({
-      status: 400,
-      error: true,
-      data: {
-        body: {
-          deviceid: req.body.deviceid,
+      const status = await connection.getDevicePowerState(req.body.deviceid);
+      // console.log(status);
+      res.send({ status: 200, error: false, data: status });
+    } else {
+      res.status(400).send({
+        status: 400,
+        error: true,
+        data: {
+          body: {
+            deviceid: req.body.deviceid,
+          },
         },
-      },
-    });
+      });
+    }
+  } catch (error) {
+    res.status(400).send({ status: 400, error: true, data: error });
   }
 });
 
