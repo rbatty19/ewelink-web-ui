@@ -87,6 +87,7 @@ export class SwitchComponent implements OnInit {
       // }));
 
       const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData).toPromise();
+      console.log(data)
       item.state = data.state;
 
       item.request = false;
