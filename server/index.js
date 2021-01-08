@@ -67,7 +67,7 @@ app.post('/devices', async (req, res) => {
     });
 
     const devices = await connection.getDevices();
-    // console.log(devices, devices.length);
+    console.log(devices);
     let report = [];
 
     for (const device of devices) {
