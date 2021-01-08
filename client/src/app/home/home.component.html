@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+
+  <div fxLayout="row" fxLayoutAlign="start start" class="width" fxFlex="15">
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <span>EweLink Web Tool</span>
+      <button mat-icon-button (click)="LogOut()">
+        <mat-icon>power_settings_new</mat-icon>
+      </button>
+    </mat-toolbar>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center start" fxFlex class="width">
+    <router-outlet></router-outlet>
+  </div>
+
+  </div>
+
+
