@@ -88,10 +88,18 @@ export class SwitchComponent implements OnInit {
 
       const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData).toPromise();
       console.log(data)
+
+      if (data?.msg?.includes('Authentication error')) throw data.msg;
+
       item.state = data.state;
 
       item.request = false;
     } catch (error) {
+      this.notifier.show({
+        message: `Error ${error}`,
+        type: "warining",      
+        id: 'loading'
+      });
       this.router.navigate(['/login']);
       item.request = false;
     }
