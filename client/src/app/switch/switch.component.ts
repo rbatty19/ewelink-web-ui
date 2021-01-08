@@ -5,7 +5,7 @@ import {
   ChangeState
 } from "../services/socket.service";
 import { isString } from "util";
-import { Data } from "@angular/router";
+import { Data, Router } from "@angular/router";
 
 @Component({
   selector: "app-switch",
@@ -19,7 +19,7 @@ export class SwitchComponent implements OnInit {
   public wsp: any = "";
   public authData: Data | any;
 
-  constructor(public switchService: SwitchService) {
+  constructor(public switchService: SwitchService, private router: Router) {
     this.authData = JSON.parse(localStorage.getItem('data'));
   }
 
@@ -77,30 +77,44 @@ export class SwitchComponent implements OnInit {
       //   tempRec: '10008930f6',
       // }));
 
-      const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData);
+      const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData).toPromise();
       item.state = data.state;
 
       item.request = false;
     } catch (error) {
+      this.router.navigate(['/login']);
       item.request = false;
     }
   }
 
   // this method get all devices data
   async getAllDevices() {
-    const { data }: any = await this.switchService.getDevices(this.authData);
-    this.devices = data;
-    this.loadDevices = false;
+    try {
+      const { data }: any = await this.switchService.getDevices(this.authData).toPromise();
+      this.devices = data;
+      this.loadDevices = false;
+    } catch (error) {
+      this.router.navigate(['/login']);
+
+    }
   }
 
   // this method change a device state by id
   async setStatus(status: boolean, deviceid: string) {
-    await this.switchService.setDeviceStatus(status ? "on" : "off", deviceid);
+    try {
+      await this.switchService.setDeviceStatus(status ? "on" : "off", deviceid).toPromise();
+    } catch (error) {
+      this.router.navigate(['/login']);
+    }
   }
 
   // this method toggle state device by id
   async toggleDevie(deviceid: string) {
-    await this.switchService.toggleDevice(deviceid);
+    try {
+      await this.switchService.toggleDevice(deviceid).toPromise();
+    } catch (error) {
+      this.router.navigate(['/login']);
+    }
   }
   //this method is get true/false from "on" or "off"
   getState(state: stateDevice) {
