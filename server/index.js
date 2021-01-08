@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
     });
 
     const data = await connection.getCredentials();
-    if (data.error) throw data;
+    if (data.error) throw data.msg;
     res.send({ status: 200, error: false, data });
   } catch (error) {
     res.send({ status: 400, error: true, data: error });
