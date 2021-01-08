@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
     if (data.error) throw data.msg;
     res.send({ status: 200, error: false, data });
   } catch (error) {
-    res.send({ status: 401, error: true, data: error }).status(401);
+    res.status(401).send({ status: 401, error: true, data: error });
   }
 });
 
