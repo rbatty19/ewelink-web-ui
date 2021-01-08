@@ -71,7 +71,7 @@ app.get('/devices', async (req, res) => {
 
     res.send({ status: 200, error: false, data: report });
   } catch (error) {
-    res.send({ status: 400, error: true, data: error });
+    res.send({ status: 401, error: true, data: error }).status(401);
   }
 });
 
