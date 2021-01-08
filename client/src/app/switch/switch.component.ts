@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-// import { HttpClient } from "@angular/common/http";
 import { SwitchService, stateDevice } from "../services/switch.service";
 import {
   openWebSocketMixin,
@@ -32,17 +31,14 @@ export class SwitchComponent implements OnInit {
 
     this.wsp = await openWebSocketMixin.openWebSocket(
       (res: any) => {
-        console.log(res);
         if (!isString(res)) {
           if (res.params) {
-            // this validtion for "Pong" case
             this.devices.map(data => {
               if (data.deviceid == res.deviceid)
                 Object.assign(data, {
                   state: res.params.switch,
                   request: false
                 });
-              // console.log(data);
             });
           }
         }
@@ -68,7 +64,6 @@ export class SwitchComponent implements OnInit {
 
       const pay = ChangeState.set(actionParams);
 
-      console.log(pay)
       await this.wsp.send(pay);
 
       // await this.wsp.send(JSON.stringify({
@@ -82,8 +77,7 @@ export class SwitchComponent implements OnInit {
       //   tempRec: '10008930f6',
       // }));
 
-      const { data }: any = await this.switchService.getDevice(item.deviceid);
-      console.log(data)
+      const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData);
       item.state = data.state;
 
       item.request = false;
@@ -94,8 +88,7 @@ export class SwitchComponent implements OnInit {
 
   // this method get all devices data
   async getAllDevices() {
-    const { data }: any = await this.switchService.getDevices();
-    console.log(data);
+    const { data }: any = await this.switchService.getDevices(this.authData);
     this.devices = data;
     this.loadDevices = false;
   }
