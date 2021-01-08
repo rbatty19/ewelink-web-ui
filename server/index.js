@@ -84,6 +84,7 @@ app.post('/devices', async (req, res) => {
 
 app.post('/device', async (req, res) => {
   try {
+    const { at, region } = req.body;
     if (req.body.deviceid) {
       connection = new ewelink({
         at,
