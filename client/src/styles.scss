@@ -1,9 +1,24 @@
 html, body { height: 100%; }
-body { 
-  margin: 0; 
-  // background-color: #222d44
-  // font-family: Roboto, "Helvetica Neue", sans-serif; 
+
+body {
+  margin: 0;
+  background: #edece7;
 }
+
+@mixin md-icon-size($size: 24px) {
+  font-size: $size !important;
+  height: $size !important;
+  width: $size !important;
+  line-height: $size !important;
+}
+
+.width {
+  width: 100%;
+}
+
+@import '~compass-mixins/lib/compass';
+
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
 

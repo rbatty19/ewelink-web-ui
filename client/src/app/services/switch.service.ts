@@ -3,23 +3,28 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Data } from "../models/data";
 import { catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
+import { Subject, throwError } from "rxjs";
+import { Device } from "../models/device";
+import { ResponseData } from "../models/response";
+import ChangeValue from "../models/change_value";
 
 @Injectable({
   providedIn: "root"
 })
 export class SwitchService {
 
+  public isNewState: Subject<ChangeValue> = new Subject<ChangeValue>();
+
   constructor(private http: HttpClient) {}
 
   getDevices(user: Data) {
-    return this.http.post(`${environment.urlBase}/devices`, { region: user.region, at: user.at })
+    return this.http.post<ResponseData<Device[]>>(`${environment.urlBase}/devices`, { region: user.region, at: user.at })
     .pipe(catchError(this.errorHandle));
   }
 
   getDevice(deviceid: string, user: Data) {
     return this.http
-      .post<any>(`${environment.urlBase}/device`, { deviceid: deviceid, region: user.region, at: user.at })
+      .post<ResponseData<Device>>(`${environment.urlBase}/device`, { deviceid: deviceid, region: user.region, at: user.at })
       .pipe(catchError(this.errorHandle));
   }
 
@@ -45,5 +50,3 @@ export class SwitchService {
     return throwError(res);
   }
 }
-
-export type stateDevice = "on" | "off";

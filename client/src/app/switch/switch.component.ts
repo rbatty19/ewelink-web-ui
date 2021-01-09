@@ -1,28 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SwitchService, stateDevice } from '../services/switch.service';
-import {
-  openWebSocketMixin,
-  ChangeState
-} from '../services/socket.service';
-import { isString } from 'util';
+import { SwitchService, } from '../services/switch.service';
+import {  SocketService } from '../services/socket.service';
 import { Data, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { Device } from '../models/device';
+import { StateEnum } from '../models/state_enum';
 
 @Component({
   selector: 'app-switch',
   templateUrl: './switch.component.html',
-  styleUrls: ['./switch.component.scss']
+  styleUrls: ['./switch.component.scss'],
+  host: {
+    class: 'width'
+  }
 })
 export class SwitchComponent implements OnInit {
-  public value1: boolean = false;
-  public loadDevices = true;
-  public devices: any[] = [];
-  public wsp: any = '';
+  public devices: Device[] = [];
   public authData: Data | any;
 
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
 
-  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService) {
+  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService, private socketService: SocketService) {
     this.authData = JSON.parse(localStorage.getItem('data'));
   }
 
@@ -37,85 +35,37 @@ export class SwitchComponent implements OnInit {
 
   async ngAfterViewInit() {
     this.getAllDevices();
-
-    this.wsp = await openWebSocketMixin.openWebSocket(
-      (res: any) => {
-        if (!isString(res)) {
-          if (res.params) {
-            this.devices.map(data => {
-              if (data.deviceid == res.deviceid)
-                Object.assign(data, {
-                  state: res.params.switch,
-                  request: false
-                });
-            });
-          }
-        }
-      },
-      { at: this.authData.at, apiKey: this.authData.user.apikey, region: this.authData.region }
-    );
   }
 
   //this method is for changing the device state from button
-  async changeState(item: any) {
+  async changeState(id: string, valueChange: boolean) {
     try {
-      item.request = true;
 
-      let newState = item.state == 'off' ? 'on' : 'off';
+      let newState = valueChange ? StateEnum.on : StateEnum.off;
 
-      let actionParams = {
-        at: this.authData.at,
-        apiKey: this.authData.user.apikey,
-        deviceId: item.deviceid,
-        params: { switch: newState },
-        // state: newState
-      };
+      this.socketService.sendMessageWebSocket(this.authData, id, newState);
 
-      const pay = ChangeState.set(actionParams);
+      this.switchService.isNewState.next({ deviceid: id, newValue: valueChange });
 
-      await this.wsp.send(pay);
-
-      // await this.wsp.send(JSON.stringify({
-      //   action: 'update',
-      //   deviceid: item.deviceid,
-      //   apikey: '6613294f-2a51-4c0c-9a88-9c5329959d82',
-      //   userAgent: 'app',
-      //   sequence: '1579309886515',
-      //   ts: 0,
-      //   params: { switch: newState },
-      //   tempRec: '10008930f6',
-      // }));
-
-      const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData).toPromise();
-      console.log(data)
-
-      if (data?.msg?.includes('Authentication error')) throw data.msg;
-
-      item.state = data.state;
-
-      item.request = false;
     } catch (error) {
       this.notifier.show({
         message: `Error ${error}`,
-        type: "warining",      
+        type: "warining",
         id: 'loading'
       });
       this.router.navigate(['/login']);
-      item.request = false;
     }
   }
 
   // this method get all devices data
-  async getAllDevices() {
-    try {
-      const { data }: any = await this.switchService.getDevices(this.authData).toPromise();
-      this.devices = data;
-      this.loadDevices = false;
+  getAllDevices() {
+    this.switchService.getDevices(this.authData).subscribe(res => {
+      this.devices = res.data;
+      this.socketService.openWebSocket(this.authData);
       this.notifier.hide('loading');
-    } catch (error) {
+    }, err => {
       this.router.navigate(['/login']);
-
-    }
+    });
   }
 
   // this method change a device state by id
@@ -135,9 +85,5 @@ export class SwitchComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-  //this method is get true/false from 'on' or 'off'
-  getState(state: stateDevice) {
-    console.log(state)
-    return state == 'on' ? true : state == 'off' ? false : new Error();
-  }
+
 }

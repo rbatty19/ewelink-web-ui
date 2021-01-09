@@ -1,66 +1,64 @@
-import * as websocket from "websocket";
-import WSAP from "websocket-as-promised";
-import { wssLoginPayload } from "./lib/wssLoginPayload";
-import { wssUpdatePayload } from "./lib/wssUpdatePayload";
-import delay from "delay";
+import { Injectable } from "@angular/core";
 
-const W3CWebSocket = websocket.w3cwebsocket;
-const WebSocketAsPromised = WSAP;
+import { wssLoginPayload, wssUpdatePayload } from "../models/wssPayload";
+import { SwitchService } from "./switch.service";
+import { webSocket, WebSocketSubject } from "rxjs/webSocket";
+import { Data } from "../models/data";
+import { StateEnum } from "../models/state_enum";
+import { delay, retryWhen, tap } from "rxjs/operators";
+@Injectable({
+  providedIn: "root"
+})
+export class SocketService {
 
-const apiUrl = (region = "us") =>
-  `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`;
+  public socket: WebSocketSubject<any>;
+
+  constructor(private switchService: SwitchService) {
+
+  }
+
+  public apiUrl = (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`;
 
 
-export const openWebSocketMixin = {
-  /**
-   * Open a socket connection to eWeLink
-   * and execute callback function with server message as argument
-   *
-   * @param callback
-   * @param heartbeat
-   * @returns {Promise<WebSocketAsPromised>}
-   */
-  async openWebSocket(callback, { at, apiKey, region }) {
-    const payloadLogin = wssLoginPayload({
-      at: at,
-      apiKey: apiKey
+  openWebSocket(user: Data) {
+
+    const payloadLogin = wssLoginPayload(user);
+
+    this.socket = webSocket({
+      url: this.apiUrl(user.region),
+      openObserver: { next: () => this.socket.next(payloadLogin) },
     });
 
-    const wsp = new WebSocketAsPromised(apiUrl(region), {
-      createWebSocket: wss => new W3CWebSocket(wss)
-    });
-
-    wsp.onMessage.addListener(message => {
-      try {
-        const data = JSON.parse(message);
-        callback(data);
-      } catch (error) {
-        callback(message);
+    this.socket
+    .pipe(
+      retryWhen(errors =>
+        errors.pipe(
+          tap(val => console.log('Retry WS.', val)),
+          delay(1000)
+        )
+      )
+    )
+    .subscribe(res => {
+      console.log(res);
+      if (res.params) {
+        this.switchService.isNewState.next({ deviceid: res.deviceid, newValue: res.params.switch === StateEnum.on });
       }
+    }, err => {
+
+      console.log(err);
     });
 
-    await wsp.open();
-    await wsp.send(payloadLogin);
-
-    setInterval(async () => {
-      await wsp.send("ping");
-    }, 120000);
-
-    return wsp;
   }
-};
 
-
-export class ChangeState extends WebSocket {
-  static set({ at, apiKey, deviceId, params }) {
-    // const payloadLogin = wssLoginPayload({ at, apiKey });
-
-    const payloadUpdate = wssUpdatePayload({
-      apiKey,
-      deviceId,
-      params
-    });
- 
-    return payloadUpdate;
+  sendMessageWebSocket(user: Data, deviceId: string, newState: StateEnum) {
+    const params = {
+      at: user.at,
+      apiKey: user.user.apikey,
+      deviceId: deviceId,
+      params: { switch: newState },
+    }
+    const payload = wssUpdatePayload(user, params, deviceId);
+    this.socket.next(payload);
   }
+
 }

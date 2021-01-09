@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import AuthLogin from '../models/authLogin';
 import { Data } from '../models/data';
 import { catchError, map, tap }  from  'rxjs/operators';
+import { ResponseData } from '../models/response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  loginAuth(auth: AuthLogin): Observable<Data> {
-    return this.http.post<any>(environment.urlBase + '/login', auth).pipe(
-      map(res => res.data),
-      tap(res => localStorage.setItem('data', JSON.stringify(res))),
+  loginAuth(auth: AuthLogin): Observable<ResponseData<Data>> {
+    return this.http.post<ResponseData<Data>>(environment.urlBase + '/login', auth).pipe(
+      tap(res => localStorage.setItem('data', JSON.stringify(res.data))),
     );
   }
 
