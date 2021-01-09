@@ -29,22 +29,19 @@ export class SocketService {
       openObserver: { next: () => this.socket.next(payloadLogin) },
     });
 
-    this.socket
-    .pipe(
+    this.socket.pipe(
       retryWhen(errors =>
         errors.pipe(
           tap(val => console.log('Retry WS.', val)),
-          delay(1000)
+          delay(1)
         )
       )
     )
     .subscribe(res => {
-      console.log(res);
       if (res.params) {
         this.switchService.isNewState.next({ deviceid: res.deviceid, newValue: res.params.switch === StateEnum.on });
       }
     }, err => {
-
       console.log(err);
     });
 

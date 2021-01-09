@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.switchService.isNewState.unsubscribe();
-    this.socketService.socket.complete();
+    this.socketService.socket?.complete();
   }
 
 }
