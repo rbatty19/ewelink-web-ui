@@ -1,7 +1,5 @@
 
 
-module.exports = (app) => {
-
 /*
  *
  * PACKAGES
@@ -9,12 +7,10 @@ module.exports = (app) => {
  */
 const ewelink = require('ewelink-api');
 
-// const QuickEncrypt = require('quick-encrypt');
-// const { privateKey, encryptedText } = require('./keys.json');
-// let [email, password] = String(QuickEncrypt.decrypt(encryptedText, privateKey)).split('|||');
+
+module.exports = (app) => {
 
 
-// let socket = '';
 /*
 <>
 <> INSTANCES
