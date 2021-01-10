@@ -13,6 +13,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [LoginGuard],
     children: [
       { path: 'switch', component: SwitchComponent, canActivate: [LoginGuard] },
       { path: '', redirectTo: 'switch', pathMatch: 'full' },
