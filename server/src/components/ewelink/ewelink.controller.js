@@ -82,8 +82,7 @@ exports.GetDevices = async (req, res) => {
     for (const device of devices) {
       report.push({
         name: device.name,
-        deviceid: device.deviceid,
-        request: false,
+        deviceid: device.deviceid,    
         deviceInfo: device,
       });
     }
