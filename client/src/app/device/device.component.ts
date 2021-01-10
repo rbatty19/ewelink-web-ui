@@ -13,9 +13,9 @@ import { SwitchService } from '../services/switch.service';
 export class DeviceComponent implements OnInit {
 
   @Input() public device: Device;
+  @Input() public checkControl: FormControl;
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
-  public checkControl: FormControl = new FormControl(false);
   public labelState: string;
   public iconState: string;
 
@@ -38,6 +38,8 @@ export class DeviceComponent implements OnInit {
         this.iconState = res.newValue ? 'on_device' : 'off_device';
       }
     });
+
+
   }
 
 }

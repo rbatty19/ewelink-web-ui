@@ -64,7 +64,7 @@ mat-icon {
   -webkit-filter: blur(1px);
 }
 
-#switch {
+.checkbox {
  	clip: rect(0 0 0 0);
   position: absolute;
   visibility: hidden;
@@ -72,7 +72,7 @@ mat-icon {
   height: 80px;
 }
 
-#switch:checked ~ .switch {
+.checkbox:checked ~ .switch {
  	background: linear-gradient(#f7f6f4, #fff);
   box-shadow:
     inset 0 -5px 0 #8aa7be,
@@ -81,6 +81,6 @@ mat-icon {
   border-bottom: none;
 }
 
-#switch:checked ~ .switch:after {
+.checkbox:checked ~ .switch:after {
   display: none;
 }

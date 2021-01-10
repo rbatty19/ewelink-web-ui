@@ -19,7 +19,6 @@ export class SocketService {
 
   public apiUrl = (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`;
 
-
   openWebSocket(user: Data) {
 
     const payloadLogin = wssLoginPayload(user);

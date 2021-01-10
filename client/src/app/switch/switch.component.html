@@ -1,8 +1,10 @@
-<div class="padding">
-  <div fxLayout="row wrap" fxLayoutGap="10px" fxLayout.lt-sm="column" >
-    <app-device [device]="item" *ngFor="let item of devices" fxFlex.sm="35" fxFlex.xs="90" fxFlex.gt-md="20" fxFlex.md="25"  (onChange)="changeState($event.deviceid, $event.newValue)"></app-device>
+<form [formGroup]="devicesGroup" class="padding">
+  <div formArrayName="checkControls" fxLayout="row wrap" fxLayoutGap="10px" fxLayout.lt-sm="column">
+    <app-device [device]="devices[i]" *ngFor="let item of devicesControl.controls; let i = index" fxFlex.sm="35" fxFlex.xs="90"
+      fxFlex.gt-md="20" fxFlex.md="25" [checkControl]="devicesControl.controls[i]"
+      (onChange)="changeState($event.deviceid, $event.newValue)"></app-device>
   </div>
-</div>
+</form>
 
 <ng-template #customNotification>
   <mat-spinner [diameter]="35"> </mat-spinner>

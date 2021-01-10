@@ -6,12 +6,13 @@
     </mat-card-title>
     <div class="device">
       <input
+        class="checkbox"
         type="checkbox"
         name="switch"
-        id="switch"
+        [id]="device.deviceid"
         [formControl]="checkControl"
       />
-      <label class="switch" for="switch"></label>
+      <label class="switch" [for]="device.deviceid"></label>
     </div>
   </mat-card-header>
 

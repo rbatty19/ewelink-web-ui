@@ -1,27 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SwitchService, } from '../services/switch.service';
-import {  SocketService } from '../services/socket.service';
+import { SocketService } from '../services/socket.service';
 import { Data, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Device } from '../models/device';
 import { StateEnum } from '../models/state_enum';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-switch',
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],
-  host: {
-    class: 'width'
-  }
+  host: { class: 'width' }
 })
 export class SwitchComponent implements OnInit {
+
   public devices: Device[] = [];
   public authData: Data | any;
+  public devicesGroup: FormGroup;
 
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
 
-  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService, private socketService: SocketService) {
+  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService,
+    private socketService: SocketService, private fb: FormBuilder) {
     this.authData = JSON.parse(localStorage.getItem('data'));
+    this.devicesGroup = this.fb.group({
+      checkControls: this.fb.array([])
+    });
   }
 
   ngOnInit() {
@@ -61,6 +66,9 @@ export class SwitchComponent implements OnInit {
   getAllDevices() {
     this.switchService.getDevices(this.authData).subscribe(res => {
       this.devices = res.data;
+      res.data.forEach(item => {
+        this.devicesControl.push(new FormControl(item.state === StateEnum.on));
+      });
       this.socketService.openWebSocket(this.authData);
       this.notifier.hide('loading');
     }, err => {
@@ -68,22 +76,8 @@ export class SwitchComponent implements OnInit {
     });
   }
 
-  // this method change a device state by id
-  async setStatus(status: boolean, deviceid: string) {
-    try {
-      await this.switchService.setDeviceStatus(status ? 'on' : 'off', deviceid).toPromise();
-    } catch (error) {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  // this method toggle state device by id
-  async toggleDevie(deviceid: string) {
-    try {
-      await this.switchService.toggleDevice(deviceid).toPromise();
-    } catch (error) {
-      this.router.navigate(['/login']);
-    }
+  get devicesControl(): FormArray {
+    return this.devicesGroup.get('checkControls') as FormArray
   }
 
 }
