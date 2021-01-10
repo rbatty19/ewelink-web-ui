@@ -10,12 +10,12 @@
         "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
       },
       "src": "/.*",
-      "dest": "index.js"
+      "dest": "src/index.js"
     }
   ],
   "builds": [
     {
-      "src": "index.js",
+      "src": "src/index.js",
       "use": "@now/node-server",
       "config": {
         "maxLambdaSize": "50mb"
