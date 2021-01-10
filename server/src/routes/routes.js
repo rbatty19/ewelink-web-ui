@@ -7,9 +7,7 @@
  */
 const ewelink = require('ewelink-api');
 
-
 module.exports = (app) => {
-
 
 /*
 <>
@@ -139,31 +137,6 @@ app.post('/device', async (req, res) => {
 //     });
 //   }
 // });
-
-app.post('/test', async (req, res) => {
-  try {
-    // console.log(typeof socket)
-    const { state } = await connection.getDevicePowerState('10008930f6');
-    console.log(state);
-    if (typeof socket != 'string')
-      await socket.send(
-        JSON.stringify({
-          action: 'update',
-          deviceid: '10008930f6',
-          apikey: '6613294f-2a51-4c0c-9a88-9c5329959d82',
-          userAgent: 'app',
-          sequence: '1579309886515',
-          ts: 0,
-          params: { switch: state == 'on' ? 'off' : 'on' },
-          tempRec: '10008930f6',
-        }),
-      );
-    res.send({ msg: 'ok', error: false }).status(200);
-  } catch (error) {
-    console.log(error);
-    res.send({ msg: 'error', error: true }).status(400);
-  }
-});
 
 app.get('/', (req, res) => {
   res.send({

@@ -7,7 +7,6 @@ const express = require('express');
 const { json, urlencoded } = express;
 const app = express();
 const morgan = require('morgan');
-const ewelink = require('ewelink-api');
 const cors = require('cors');
 
 /*
