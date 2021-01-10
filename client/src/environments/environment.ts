@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlBase: 'https://server-ewelink-api.vercel.app'
+  urlBase: 'https://ewelink-web-api-git-dev.rober191.vercel.app'
 };
 
 /*

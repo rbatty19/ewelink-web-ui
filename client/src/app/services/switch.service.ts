@@ -17,6 +17,10 @@ export class SwitchService {
 
   constructor(private http: HttpClient) {}
 
+  initSubject() {
+    this.isNewState = new Subject<ChangeValue>();
+  }
+
   getDevices(user: Data) {
     return this.http.post<ResponseData<Device[]>>(`${environment.urlBase}/devices`, { region: user.region, at: user.at })
     .pipe(catchError(this.errorHandle));

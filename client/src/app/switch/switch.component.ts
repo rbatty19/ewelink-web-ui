@@ -30,16 +30,14 @@ export class SwitchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.switchService.initSubject();
+    this.getAllDevices();
     this.notifier.show({
       message: "Loading",
       type: "warining",
       template: this.customNotificationTmpl,
       id: 'loading'
     });
-  }
-
-  async ngAfterViewInit() {
-    this.getAllDevices();
   }
 
   //this method is for changing the device state from button
