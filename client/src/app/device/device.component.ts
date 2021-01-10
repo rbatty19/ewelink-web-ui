@@ -39,7 +39,10 @@ export class DeviceComponent implements OnInit {
       }
     });
 
+  }
 
+  changeManully() {
+    this.onChange.emit({ deviceid: this.device.deviceid, newValue: !this.checkControl.value });
   }
 
 }

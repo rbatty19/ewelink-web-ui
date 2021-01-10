@@ -21,8 +21,9 @@ mat-icon {
  	width: 55px;
   height: 80px;
   border-radius: 50px;
-  background: #e6e3da;
-  background: linear-gradient(#e6e3da, #fff);
+
+  background: #dae5e6;
+  background: linear-gradient(#fdfbf6, rgb(245, 223, 223));
   border: 1px solid rgba(0,0,0,0.1);
 
   box-shadow:
@@ -73,9 +74,9 @@ mat-icon {
 }
 
 .checkbox:checked ~ .switch {
- 	background: linear-gradient(#f7f6f4, #fff);
+  background: linear-gradient(#daeefd, rgb(255, 255, 255));
   box-shadow:
-    inset 0 -5px 0 #8aa7be,
+    inset 0 -5px 0 #dbd3c8,
     0 6px 5px rgba(170, 160, 140, 0.75),
     3px 16px 5px rgba(170,160,140, 0.3);
   border-bottom: none;
@@ -83,4 +84,8 @@ mat-icon {
 
 .checkbox:checked ~ .switch:after {
   display: none;
+}
+
+.pointer {
+  cursor: pointer;
 }

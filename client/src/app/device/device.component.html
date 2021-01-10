@@ -22,8 +22,8 @@
   </mat-card-content>
 
   <mat-card-actions fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
-    <mat-icon [svgIcon]="iconState" inline="true" class="iconOn"></mat-icon>
-    <p>{{labelState}}</p>
+    <mat-icon [svgIcon]="iconState" inline="true" class="iconOn pointer" (click)="changeManully()"></mat-icon>
+    <p (click)="changeManully()" class="pointer">{{labelState}}</p>
   </mat-card-actions>
 
 </mat-card>
