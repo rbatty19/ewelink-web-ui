@@ -55,8 +55,7 @@ export class SwitchComponent implements OnInit {
     } catch (error) {
       this.notifier.show({
         message: `Error ${error}`,
-        type: "warining",
-        id: 'loading'
+        type: "error"
       });
       this.router.navigate(['/login']);
     }
@@ -72,6 +71,11 @@ export class SwitchComponent implements OnInit {
       this.socketService.openWebSocket(this.authData);
       this.notifier.hide('loading');
     }, err => {
+      this.notifier.hide('loading');
+      this.notifier.show({
+        message: `Error ${err}`,
+        type: "error"
+      });
       this.router.navigate(['/login']);
     });
   }
