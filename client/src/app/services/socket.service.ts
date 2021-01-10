@@ -4,7 +4,7 @@ import { wssLoginPayload, wssUpdatePayload } from "../models/wssPayload";
 import { SwitchService } from "./switch.service";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { Data } from "../models/data";
-import { StateEnum } from "../models/state_enum";
+import { StateEnum } from "../models/ewelink_enums";
 import { delay, retryWhen, tap } from "rxjs/operators";
 @Injectable({
   providedIn: "root"

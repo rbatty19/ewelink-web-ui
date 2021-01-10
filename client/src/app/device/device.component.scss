@@ -1,7 +1,7 @@
 @import "../../styles.scss";
 
-mat-icon {
-  @include md-icon-size(52px);
+mat-card-title > .img {
+  @include png-icon(70%);
 }
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
@@ -13,6 +13,10 @@ mat-icon {
 .mat-card {
   border-radius: 10px;
   z-index: 1;
+}
+
+.device {
+  padding: 10px;
 }
 
 .switch {
@@ -57,8 +61,8 @@ mat-icon {
   height: 80px;
   border-radius: 50%;
   z-index: -1;
-  left: 18px;
-  top: 10px;
+  left: 5px;
+  top: 5px;
   background: linear-gradient(160deg, rgba(170, 160, 140, 0.7), rgba(170, 160, 140, 0));
   background: -webkit-linear-gradient(290deg, rgba(170, 160, 140, 0.75), rgba(170, 160, 140, 0));
 

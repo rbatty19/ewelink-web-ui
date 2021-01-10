@@ -1,4 +1,13 @@
-html, body { height: 100%; }
+@import "~compass-mixins/lib/compass";
+
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -16,32 +25,58 @@ body {
   width: 100%;
 }
 
-@import '~compass-mixins/lib/compass';
-
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
-
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
-
 * {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 @import "~angular-notifier/styles";
 
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
-$theming-material-components-primary: mat-palette($mat-blue);
-$theming-material-components-accent: mat-palette($mat-pink, A200, A100, A400);
-// The warn palette is optional (defaults to red).
+@mixin png-icon($sizeW: 24px) {
+  margin: 5px auto auto;
+  padding: 0;
+  display: inline-block;
+  background-repeat: no-repeat no-repeat;
+  pointer-events: none;
+  width: $sizeW;
+  height: auto;
+}
 
-$theming-material-components-warn: mat-palette($mat-red);
-// Create the theme object (a Sass map containing all of the palettes).
+mat-toolbar > div > .img {
+  @include png-icon(35px);
+  margin: 0px;
+}
 
-$theming-material-components-theme: mat-light-theme(
-  $theming-material-components-primary,
-  $theming-material-components-accent,
-  $theming-material-components-warn
-);
+body.darkMode {
+  background-color: #535353 !important;
+  -webkit-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+  $theming-material-components-primary: mat-palette($mat-blue);
+  $theming-material-components-accent: mat-palette($mat-pink, A200, A100, A400);
+  $theming-material-components-warn: mat-palette($mat-red);
+  $theming-material-components-theme: mat-dark-theme(
+    $theming-material-components-primary,
+    $theming-material-components-accent,
+    $theming-material-components-warn
+  );
+  @include angular-material-theme($theming-material-components-theme);
+}
 
-@include angular-material-theme($theming-material-components-theme);
+body.lightMode {
+  background-color: #edece7;
+  -webkit-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+  $theming-material-components-primary: mat-palette($mat-blue, A200, A100, A900);
+  $theming-material-components-accent: mat-palette($mat-pink, A200, A100, A900);
+  $theming-material-components-warn: mat-palette($mat-red, A200, A100, A900);
+  $theming-material-components-theme: mat-light-theme(
+    $theming-material-components-primary,
+    $theming-material-components-accent,
+    $theming-material-components-warn
+  );
+  @include angular-material-theme($theming-material-components-theme);
+}

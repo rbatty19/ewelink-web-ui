@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../services/socket.service';
 import { SwitchService } from '../services/switch.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { SwitchService } from '../services/switch.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router,  private switchService: SwitchService, private socketService: SocketService) { }
+  constructor(private router: Router,  private switchService: SwitchService, private socketService: SocketService, public themeService: ThemeService) { }
 
   ngOnInit() {
   }

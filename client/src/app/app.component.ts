@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -10,19 +11,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AppComponent  {
 
 
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    this.matIconRegistry.addSvgIcon(
-      `switch_device`,
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/iluminacion.svg')
-    );
-    this.matIconRegistry.addSvgIcon(
-      `on_device`,
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/on.svg')
-    );
-    this.matIconRegistry.addSvgIcon(
-      `off_device`,
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/off.svg')
-    );
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private themeService: ThemeService) {
+
+    this.themeService.initTheme();
+
   }
 
 }

@@ -1,29 +1,24 @@
-<mat-card class="mat-elevation-z4">
+<mat-card class="mat-elevation-z4" fxLayout="row wrap" fxLayoutAlign="center center">
 
-  <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
-    <mat-card-title>
-      <mat-icon svgIcon="switch_device" inline="true"></mat-icon>
-    </mat-card-title>
-    <div class="device">
-      <input
-        class="checkbox"
-        type="checkbox"
-        name="switch"
-        [id]="device.deviceid"
-        [formControl]="checkControl"
-      />
-      <label class="switch" [for]="device.deviceid"></label>
-    </div>
-  </mat-card-header>
+  <div fxFlex>
+    <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
+      <mat-card-title>
+        <img [src]="device.deviceInfo.brandLogoUrl" alt="brand logo" class="img">
+      </mat-card-title>
 
-  <mat-card-content>
-    <b style="font-size: 18px;">{{device.name}}</b>
-    <p>{{device.deviceid}}</p>
-  </mat-card-content>
+    </mat-card-header>
 
-  <mat-card-actions fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
-    <mat-icon [svgIcon]="iconState" inline="true" class="iconOn pointer" (click)="changeManully()"></mat-icon>
-    <p (click)="changeManully()" class="pointer">{{labelState}}</p>
-  </mat-card-actions>
+    <mat-card-content fxLayout="column wrap" fxLayoutAlign="center start" style="margin-bottom: 0px; overflow-wrap: anywhere;">
+      <b style="font-size: 18px;">{{device.name}}</b>
+      <p>{{device.deviceid}}</p>
+      <mat-slide-toggle [checked]="checkControl.value" color="primary" (change)="changeManully()">{{labelState}}</mat-slide-toggle>
+    </mat-card-content>
+
+  </div>
+
+  <div class="device">
+    <input class="checkbox" type="checkbox" name="switch" [id]="device.deviceid" [formControl]="checkControl" />
+    <label class="switch" [for]="device.deviceid"></label>
+  </div>
 
 </mat-card>

@@ -4,7 +4,7 @@ import { SocketService } from '../services/socket.service';
 import { Data, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Device } from '../models/device';
-import { StateEnum } from '../models/state_enum';
+import { StateEnum } from '../models/ewelink_enums';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -51,10 +51,8 @@ export class SwitchComponent implements OnInit {
       this.switchService.isNewState.next({ deviceid: id, newValue: valueChange });
 
     } catch (error) {
-      this.notifier.show({
-        message: `Error ${error}`,
-        type: "error"
-      });
+      console.log(error);
+      localStorage.clear();
       this.router.navigate(['/login']);
     }
   }
@@ -70,10 +68,8 @@ export class SwitchComponent implements OnInit {
       this.notifier.hide('loading');
     }, err => {
       this.notifier.hide('loading');
-      this.notifier.show({
-        message: `Error ${err}`,
-        type: "error"
-      });
+      console.log(err);
+      localStorage.clear();
       this.router.navigate(['/login']);
     });
   }

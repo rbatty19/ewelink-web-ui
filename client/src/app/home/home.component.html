@@ -2,10 +2,18 @@
 
   <div fxLayout="row" fxLayoutAlign="start start" class="width" fxFlex="10" fxFlex.xs="12">
     <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-      <span>EweLink Web Tool</span>
-      <button mat-icon-button (click)="LogOut()">
-        <mat-icon>power_settings_new</mat-icon>
-      </button>
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <img src="/assets/ewelink.png" alt="ewelink" class="img">
+        <span>EweLink Web Tool</span>
+      </div>
+      <div>
+        <button mat-icon-button (click)="LogOut()">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button (click)="themeService.switchMode()">
+          <mat-icon>{{themeService.isDarkMode ? 'wb_sunny' : 'brightness_2'}}</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
   </div>
 
@@ -13,6 +21,4 @@
     <router-outlet></router-outlet>
   </div>
 
-  </div>
-
-
+</div>

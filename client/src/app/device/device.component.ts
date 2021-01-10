@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import ChangeValue from '../models/change_value';
 import { Device } from '../models/device';
-import { StateEnum } from '../models/state_enum';
+import { StateEnum } from '../models/ewelink_enums';
 import { SwitchService } from '../services/switch.service';
 
 @Component({
@@ -22,10 +22,10 @@ export class DeviceComponent implements OnInit {
   constructor(private switchService: SwitchService) { }
 
   ngOnInit(): void {
-    this.labelState = this.device.state === StateEnum.on ? 'On' : 'Off';
-    this.iconState = this.device.state === StateEnum.on ? 'on_device' : 'off_device';
+    this.labelState = this.device.deviceInfo.params.params.switch === StateEnum.on ? 'On' : 'Off';
+    this.iconState = this.device.deviceInfo.params.params.switch === StateEnum.on ? 'on_device' : 'off_device';
 
-    this.checkControl.setValue(this.device.state === StateEnum.on, { emitEvent: false });
+    this.checkControl.setValue(this.device.deviceInfo.params.params.switch === StateEnum.on, { emitEvent: false });
 
     this.checkControl.valueChanges.subscribe(res => {
       this.onChange.emit({ deviceid: this.device.deviceid, newValue: res });

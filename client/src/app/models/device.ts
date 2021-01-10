@@ -1,4 +1,5 @@
-import { StateEnum } from "./state_enum";
+import { DeviceInfo } from "./deviceInfo";
+import { StateEnum } from "./ewelink_enums";
 
 export interface Device {
   status:   string;
@@ -6,4 +7,5 @@ export interface Device {
   name:     string;
   deviceid: string;
   request:  boolean;
+  deviceInfo: DeviceInfo;
 }

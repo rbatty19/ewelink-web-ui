@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { DeviceComponent } from './device/device.component';
 import { CommonModule } from "@angular/common";
 import { MaterialDefinitionsModule } from "./material-definitions/material-definitions.module";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   declarations: [AppComponent, SwitchComponent, LoginComponent, HomeComponent, DeviceComponent],
@@ -26,6 +27,7 @@ import { MaterialDefinitionsModule } from "./material-definitions/material-defin
     FlexLayoutModule,
     ReactiveFormsModule,
     MaterialDefinitionsModule,
+    MatIconModule,
     NotifierModule.withConfig({
       position: { vertical: { position: 'top', distance: 74 }, horizontal: { position: "right" } }
     })

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { AuthService } from '../services/auth.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   });
 
 
-  constructor(public notifierService: NotifierService, public authService: AuthService, public router: Router) {
+  constructor(public notifierService: NotifierService, public authService: AuthService, public router: Router, public themeService: ThemeService) {
   }
 
   ngOnInit(): void {
