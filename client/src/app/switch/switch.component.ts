@@ -89,7 +89,7 @@ export class SwitchComponent implements OnInit {
       console.log(item)
       item.request = true;
 
-      let newState = item.newValue ? "on" : "off";
+      let newState = item.newValue ? StateEnum.on : StateEnum.off;
 
       let actionParams = {
         at: this.authData.at,
@@ -102,6 +102,8 @@ export class SwitchComponent implements OnInit {
       const pay = ChangeState.set(actionParams);
 
       await this.wsp.send(pay);
+
+      this.switchService.isNewState.next({ deviceid: item.deviceid, newValue: item.newValue });
 
       // double check
       // const { data }: any = await this.switchService.getDevice(item.deviceid, this.authData);

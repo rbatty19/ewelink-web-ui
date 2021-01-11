@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeEnum } from '../models/ewelink_enums';
-import { SocketService } from '../services/socket3.service';
+import { SocketService } from '../services/socket2.service';
 import { SwitchService } from '../services/switch.service';
 import { ThemeService } from '../services/theme.service';
 
