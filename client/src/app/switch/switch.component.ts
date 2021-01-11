@@ -86,7 +86,7 @@ export class SwitchComponent implements OnInit {
   //this method is for changing the device state from button
   async changeState(item: any) {
     try {
-      console.log(item)
+      // console.log(item)
       item.request = true;
 
       let newState = item.newValue ? StateEnum.on : StateEnum.off;
