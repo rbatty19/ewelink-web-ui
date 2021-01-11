@@ -16,7 +16,7 @@ export class AppComponent {
     this.themeService.initTheme();
     this.matIconRegistry.addSvgIcon(
       "logo",
-      'assets/github.svg');
+      this.domSanitizer.bypassSecurityTrustResourceUrl('https://www.flaticon.es/svg/static/icons/svg/25/25231.svg'));
 
   }
 

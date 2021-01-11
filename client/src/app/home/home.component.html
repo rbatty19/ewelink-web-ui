@@ -1,33 +1,46 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-
-  <div fxLayout="row" fxLayoutAlign="start start" class="width" fxFlex="10" fxFlex.xs="12">
-    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start start"
+    class="width"
+    fxFlex="10"
+    fxFlex.xs="12"
+  >
+    <mat-toolbar
+      color="primary"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <img src="/assets/ewelink.png" alt="ewelink" class="img">
+        <img src="/assets/ewelink.png" alt="ewelink" class="img" />
         <span>EweLink Web Tool</span>
       </div>
       <div>
-        <button mat-icon-button (click)="LogOut()">
-          <mat-icon>power_settings_new</mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon svgIcon="logo"></mat-icon>
         </button>
-        <button mat-icon-button (click)="themeService.switchMode()">
-          <mat-icon>{{themeService.isDarkMode ? 'wb_sunny' : 'brightness_2'}}</mat-icon>
-        </button>
-        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item>
-            <mat-icon>github</mat-icon>
+            <mat-icon>folder</mat-icon>
             <span>App Repository</span>
           </button>
-          <button mat-menu-item>
-            <mat-icon>voicemail</mat-icon>
-            <span>Rober19</span>           
+          <button href="" mat-menu-item>
+            <mat-icon svgIcon="logo"></mat-icon>
+            <span>Rober19</span>
           </button>
-          <button mat-menu-item>
-            <mat-icon>voicemail</mat-icon>
+          <button mat-menu-item href="">
+            <mat-icon svgIcon="logo"></mat-icon>
             <span>DevelopGadget</span>
           </button>
         </mat-menu>
+        <button mat-icon-button (click)="themeService.switchMode()">
+          <mat-icon>{{
+            themeService.isDarkMode ? "wb_sunny" : "brightness_2"
+          }}</mat-icon>
+        </button>
+        <button mat-icon-button (click)="LogOut()">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
       </div>
     </mat-toolbar>
   </div>
@@ -35,5 +48,4 @@
   <div fxLayout="row" fxLayoutAlign="center start" fxFlex class="width">
     <router-outlet></router-outlet>
   </div>
-
 </div>

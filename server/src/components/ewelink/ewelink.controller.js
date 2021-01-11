@@ -86,6 +86,7 @@ exports.GetDevices = async (req, res) => {
         name: device.name,
         deviceid: device.deviceid,    
         deviceInfo: device,
+        state: device.params.params.switch
       });
     }
 
