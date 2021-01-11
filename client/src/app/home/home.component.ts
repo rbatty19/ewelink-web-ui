@@ -11,6 +11,8 @@ import { ThemeService } from '../services/theme.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  
+
   constructor(private router: Router,  private switchService: SwitchService, private socketService: SocketService, public themeService: ThemeService) { }
 
   ngOnInit() {

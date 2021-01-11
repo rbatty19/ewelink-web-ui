@@ -1,56 +1,79 @@
 # Ewelink Web App
 
+I am pleased to show you a web tool for ewelink.
 
+# Privacy
 
-![image-20210108143530082](assets/image-20210108143530082.png)
+The only use that we give to the credentials (email / password) is to obtain access from __ewelink__
 
-![image-20210108143554255](assets/image-20210108143554255.png)
+```js
+const { email, password } = req.body;
 
+const connection = new ewelink({
+  email,
+  password,
+});
 
+const data = await connection.getCredentials();
+```
+<sub><sup>
+( email / password are data for 1 use only, they are not stored for anything )
+</sup></sub>
 
+This is what the access data for the Ewelink account and devices looks like
 
-
-**Documentación**:
-
-[EweLink-API](https://ewelink-api.now.sh/docs/introduction)
-
-
-1. socket timer example
-
-````json
+```JSON
 {
- "action": "update",
- "deviceid": "10009aee9f",
- "apikey": "6613294f-2a51-4c0c-9a88-9c5329959d82",
- "userAgent": "app",
- "sequence": "1578951872889",
- "ts": 0,
- "params": {
-  "timers": [
-   {
-    "enabled": 1,
-    "coolkit_timer_type": "repeat",
-    "at": "0 7 * * 1,2,3,4,5,6,0",
-    "type": "repeat",
-    "do": {
-     "switch": "off"
+  "at": "*************",
+  "rt": "*************",
+  "user": {
+    "clientInfo": {
+      "model": "iPhone 11 Pro_iPhone12,3",
+      "os": "iOS",
+      "imei": "*************",
+      "romVersion": "14.3",
+      "appVersion": "4.8.1"
     },
-    "mId": "a6cdac3a-ab18-caeb-73f1-28f805f13d05"
-   },
-   {
-    "enabled": 1,
-    "coolkit_timer_type": "delay",
-    "at": "2020-01-13T23:37:00.171Z",
-    "period": "120",
-    "type": "once",
-    "do": {
-     "switch": "off"
-    },
-    "mId": "e7f8d26f-f44a-f5e1-f8b6-d152880d80d6"
-   }
-  ]
- },
- "tempRec": "10009aee9f"
+    "_id": "*************",
+    "email": "usertest@gmail.com",
+    "password": "*************",
+    "appId": "*************",
+    "isAccepEmailAd": false,
+    "createdAt": "2019-08-01T22:25:08.703Z",
+    "apikey": "*************",
+    "__v": 0,
+    "lang": "en",
+    "online": false,
+    "onlineTime": "2021-01-10T23:15:14.852Z",
+    "appInfos": [
+      { "os": "ios", "appVersion": "" },
+      { "os": "android", "appVersion": "4.6.0" }
+    ],
+    "ip": "179.13.51.15",
+    "location": "",
+    "offlineTime": "2021-01-10T23:16:21.459Z",
+    "bindInfos": { "gaction": ["ewelink-google-home-v1", "ewelinkGoogleHome"] },
+    "userStatus": "2",
+    "nickname": "usertest",
+    "countryCode": "+86",
+    "currentFamilyId": "*************",
+    "language": "en",
+    "extra": { "ipCountry": "CO" }
+  },
+  "region": "us"
 }
 
-````
+```
+
+Once the access JSON is obtained, we use the data obtained `at`,` region`, etc...
+
+```js
+const connection = new ewelink({
+  at,
+  region,
+});
+```
+
+**References**:
+
+> [eWelink API](https://ewelink-api.now.sh/docs/introduction)
