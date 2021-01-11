@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ThemeEnum } from '../models/ewelink_enums';
 import MenuLink from '../models/menu_link';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../services/socket3.service';
 import { SwitchService } from '../services/switch.service';
 import { ThemeService } from '../services/theme.service';
 
