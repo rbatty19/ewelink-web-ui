@@ -16,7 +16,7 @@
         <span>EweLink Web Tool</span>
       </div>
       <div>
-        <button mat-button [matMenuTriggerFor]="menu">
+        <button mat-button mat-icon-button  [matMenuTriggerFor]="menu">
           <mat-icon svgIcon="github"></mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -33,14 +33,32 @@
             <span>DevelopGadget</span>
           </button>
         </mat-menu>
-        <button mat-icon-button (click)="themeService.switchMode()">
+        <!-- _________________ -->
+        <button mat-button mat-icon-button [matMenuTriggerFor]="menu2">
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu2="matMenu">
+          <button mat-menu-item (click)="themeService.switchMode()">
+            <mat-icon>{{
+              themeService.isDarkMode ? "wb_sunny" : "brightness_2"
+            }}</mat-icon>
+            <span>{{
+              themeService.isDarkMode ? "Light Mode" : "Dark Mode"
+            }}</span>
+          </button>
+          <button mat-menu-item (click)="LogOut()"> 
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Sigh Out</span>
+          </button>
+        </mat-menu>
+        <!-- <button mat-icon-button (click)="themeService.switchMode()">
           <mat-icon>{{
             themeService.isDarkMode ? "wb_sunny" : "brightness_2"
           }}</mat-icon>
         </button>
         <button mat-icon-button (click)="LogOut()">
           <mat-icon>power_settings_new</mat-icon>
-        </button>
+        </button> -->
       </div>
     </mat-toolbar>
   </div>
