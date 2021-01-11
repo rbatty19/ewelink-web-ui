@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { ThemeEnum } from '../models/ewelink_enums';
 import { AuthService } from '../services/auth.service';
 import { ThemeService } from '../services/theme.service';
 
@@ -13,6 +14,7 @@ import { ThemeService } from '../services/theme.service';
 export class LoginComponent implements OnInit {
 
   public isLoading: boolean = false;
+  public themeEnum = ThemeEnum;
 
   public formLogin: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),

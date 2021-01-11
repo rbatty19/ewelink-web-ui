@@ -15,9 +15,10 @@ import { DeviceComponent } from './device/device.component';
 import { CommonModule } from "@angular/common";
 import { MaterialDefinitionsModule } from "./material-definitions/material-definitions.module";
 import { MatIconModule } from "@angular/material/icon";
+import { MenuInfoComponent } from './menu-info/menu-info.component';
 
 @NgModule({
-  declarations: [AppComponent, SwitchComponent, LoginComponent, HomeComponent, DeviceComponent],
+  declarations: [AppComponent, SwitchComponent, LoginComponent, HomeComponent, DeviceComponent, MenuInfoComponent],
   imports: [
     BrowserModule,
     CommonModule,

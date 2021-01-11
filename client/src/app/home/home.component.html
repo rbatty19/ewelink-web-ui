@@ -16,22 +16,7 @@
         <span>EweLink Web Tool</span>
       </div>
       <div>
-        <button mat-button mat-icon-button  [matMenuTriggerFor]="menu">
-          <mat-icon svgIcon="github"></mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let item of menuLinks" (click)="redirectComments(item)">
-
-            <ng-container *ngIf="item.isSvg; else elseTemplate">
-              <mat-icon [svgIcon]="item.icon"></mat-icon>
-            </ng-container>
-            <ng-template #elseTemplate>
-              <mat-icon>{{item.icon}}</mat-icon>
-            </ng-template>
-
-            <span>{{item.text}}</span>
-          </button>
-        </mat-menu>
+        <app-menu-info></app-menu-info>
         <!-- _________________ -->
         <button mat-button mat-icon-button [matMenuTriggerFor]="menu2">
           <mat-icon>person</mat-icon>
