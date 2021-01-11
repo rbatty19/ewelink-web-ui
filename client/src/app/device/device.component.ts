@@ -4,6 +4,7 @@ import ChangeValue from '../models/change_value';
 import { Device } from '../models/device';
 import { StateEnum } from '../models/ewelink_enums';
 import { SwitchService } from '../services/switch.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-device',
@@ -19,7 +20,7 @@ export class DeviceComponent implements OnInit {
   public labelState: string;
   public iconState: string;
 
-  constructor(private switchService: SwitchService) { }
+  constructor(private switchService: SwitchService, public themeService: ThemeService) { }
 
   ngOnInit(): void {
     this.labelState = this.device.deviceInfo.params.params.switch === StateEnum.on ? 'On' : 'Off';

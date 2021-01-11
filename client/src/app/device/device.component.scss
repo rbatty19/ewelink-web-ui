@@ -4,6 +4,10 @@ mat-card-title > .img {
   @include png-icon(70%);
 }
 
+.darkModeContrast {
+  filter: contrast(100);
+}
+
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 .iconOn {
