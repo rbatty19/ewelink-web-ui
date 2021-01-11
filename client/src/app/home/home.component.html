@@ -20,17 +20,16 @@
           <mat-icon svgIcon="github"></mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>folder</mat-icon>
-            <span>App Repository</span>
-          </button>
-          <button href="" mat-menu-item>
-            <mat-icon svgIcon="github"></mat-icon>
-            <span>Rober19</span>
-          </button>
-          <button mat-menu-item href="">
-            <mat-icon svgIcon="github"></mat-icon>
-            <span>DevelopGadget</span>
+          <button mat-menu-item *ngFor="let item of menuLinks" (click)="redirectComments(item)">
+
+            <ng-container *ngIf="item.isSvg; else elseTemplate">
+              <mat-icon [svgIcon]="item.icon"></mat-icon>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <mat-icon>{{item.icon}}</mat-icon>
+            </ng-template>
+
+            <span>{{item.text}}</span>
           </button>
         </mat-menu>
         <!-- _________________ -->
@@ -40,25 +39,17 @@
         <mat-menu #menu2="matMenu">
           <button mat-menu-item (click)="themeService.switchMode()">
             <mat-icon>{{
-              themeService.isDarkMode ? "wb_sunny" : "brightness_2"
+              themeService.isDarkMode ? themeEnum.lightIcon : themeEnum.darkIcon
             }}</mat-icon>
             <span>{{
-              themeService.isDarkMode ? "Light Mode" : "Dark Mode"
+              themeService.isDarkMode ? themeEnum.darkText : themeEnum.lightText
             }}</span>
           </button>
-          <button mat-menu-item (click)="LogOut()"> 
+          <button mat-menu-item (click)="LogOut()">
             <mat-icon>power_settings_new</mat-icon>
             <span>Sigh Out</span>
           </button>
         </mat-menu>
-        <!-- <button mat-icon-button (click)="themeService.switchMode()">
-          <mat-icon>{{
-            themeService.isDarkMode ? "wb_sunny" : "brightness_2"
-          }}</mat-icon>
-        </button>
-        <button mat-icon-button (click)="LogOut()">
-          <mat-icon>power_settings_new</mat-icon>
-        </button> -->
       </div>
     </mat-toolbar>
   </div>

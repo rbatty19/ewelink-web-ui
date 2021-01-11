@@ -4,7 +4,27 @@
 
 export const environment = {
   production: false,
-  urlBase: 'https://ewelink-web-api-git-dev.rober191.vercel.app'
+  menuLinks: [
+    {
+      link: 'https://github.com/Rober19/ewelink-web-ui',
+      icon: 'folder',
+      text: 'App Repository',
+      isSvg: false
+    },
+    {
+      link: 'https://github.com/Rober19',
+      icon: 'github',
+      text: 'Rober19',
+      isSvg: true
+    },
+    {
+      link: 'https://github.com/DevelopGadget',
+      icon: 'github',
+      text: 'DevelopGadget',
+      isSvg: true
+    }
+  ],
+  urlBase: 'https://ewelink-web-api-git-dev.rober191.vercel.app',
 };
 
 /*
