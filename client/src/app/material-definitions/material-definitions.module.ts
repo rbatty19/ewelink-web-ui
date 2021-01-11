@@ -7,7 +7,8 @@ import {
   MatInputModule,
   MatProgressSpinnerModule,
   MatSliderModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatMenuModule
 } from '@angular/material';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -15,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   imports: [
     MatToolbarModule,
+    MatMenuModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -27,6 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   ],
   exports: [
     MatToolbarModule,
+    MatMenuModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,

@@ -13,6 +13,21 @@
         <button mat-icon-button (click)="themeService.switchMode()">
           <mat-icon>{{themeService.isDarkMode ? 'wb_sunny' : 'brightness_2'}}</mat-icon>
         </button>
+        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>github</mat-icon>
+            <span>App Repository</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>voicemail</mat-icon>
+            <span>Rober19</span>           
+          </button>
+          <button mat-menu-item>
+            <mat-icon>voicemail</mat-icon>
+            <span>DevelopGadget</span>
+          </button>
+        </mat-menu>
       </div>
     </mat-toolbar>
   </div>

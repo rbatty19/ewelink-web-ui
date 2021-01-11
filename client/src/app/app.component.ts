@@ -8,12 +8,15 @@ import { ThemeService } from './services/theme.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  {
+export class AppComponent {
 
 
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private themeService: ThemeService) {
 
     this.themeService.initTheme();
+    this.matIconRegistry.addSvgIcon(
+      "logo",
+      'assets/github.svg');
 
   }
 
