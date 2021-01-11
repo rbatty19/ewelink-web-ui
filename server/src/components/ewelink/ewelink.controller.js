@@ -5,11 +5,10 @@
  */
 const ewelink = require('ewelink-api');
 
-
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *
+ * @param {*} req
+ * @param {*} res
  */
 exports.Login = async (req, res) => {
   try {
@@ -31,9 +30,9 @@ exports.Login = async (req, res) => {
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *
+ * @param {*} req
+ * @param {*} res
  */
 exports.GetDevice = async (req, res) => {
   try {
@@ -64,9 +63,9 @@ exports.GetDevice = async (req, res) => {
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *
+ * @param {*} req
+ * @param {*} res
  */
 exports.GetDevices = async (req, res) => {
   try {
@@ -84,9 +83,10 @@ exports.GetDevices = async (req, res) => {
     for (const device of devices) {
       report.push({
         name: device.name,
-        deviceid: device.deviceid,    
+        deviceid: device.deviceid,
         deviceInfo: device,
-        state: device.params.params.switch
+        state: device.params.params.switch,
+        request: false, // used in socket wsp
       });
     }
 

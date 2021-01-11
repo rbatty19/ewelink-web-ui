@@ -2,7 +2,7 @@
   <div formArrayName="checkControls" fxLayout="row wrap" fxLayoutGap="10px" fxLayout.lt-sm="column">
     <app-device [device]="devices[i]" *ngFor="let item of devicesControl.controls; let i = index" fxFlex.sm="35" fxFlex.xs="90"
       fxFlex.gt-md="20" fxFlex.md="25" [checkControl]="devicesControl.controls[i]"
-      (onChange)="changeState($event.deviceid, $event.newValue)"></app-device>
+      (onChange)="changeState($event)"></app-device>
   </div>
 </form>
 
