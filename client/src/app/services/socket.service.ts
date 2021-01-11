@@ -38,7 +38,6 @@ export const openWebSocketMixin = {
         const data = JSON.parse(message);
         callback(data);
       } catch (error) {
-        console.log(error)
         callback(message);
       }
     });
@@ -65,7 +64,7 @@ export class ChangeState extends WebSocket {
       deviceId,
       params
     });
- 
+
     return payloadUpdate;
   }
 }

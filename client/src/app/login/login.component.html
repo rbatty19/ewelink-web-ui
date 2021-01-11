@@ -6,9 +6,13 @@
         <img src="/assets/ewelink.png" alt="ewelink" class="img">
         <span>EweLink Web Tool</span>
       </div>
-      <button mat-icon-button (click)="themeService.switchMode()" class="animate__animated animate__fadeIn">
-        <mat-icon>{{themeService.isDarkMode ? 'wb_sunny' : 'brightness_2'}}</mat-icon>
-      </button>
+      <div >
+        <app-menu-info></app-menu-info>
+        <button mat-button (click)="themeService.switchMode()" >
+          <mat-icon>{{themeService.isDarkMode ? themeEnum.lightIcon : themeEnum.darkIcon}}</mat-icon>
+          {{themeService.isDarkMode ? themeEnum.darkText : themeEnum.lightText}}
+        </button>
+      </div>
     </mat-toolbar>
   </div>
 
