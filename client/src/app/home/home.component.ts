@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../services/socket3.service';
 import { SwitchService } from '../services/switch.service';
 import { ThemeService } from '../services/theme.service';
 

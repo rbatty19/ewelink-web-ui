@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SwitchService, } from '../services/switch.service';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../services/socket3.service';
 import { Data, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Device } from '../models/device';
