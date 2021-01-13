@@ -5,6 +5,11 @@
  */
 const ewelink = require('ewelink-api');
 
+const app_keys = {
+  APP_ID: 'oeVkj2lYFGnJu5XUtWisfW4utiN4u9Mq',
+  APP_SECRET: '6Nz4n0xA8s8qdxQf2GqurZj2Fs55FUvM',
+};
+
 /**
  *
  * @param {*} req
@@ -17,6 +22,7 @@ exports.Login = async (req, res) => {
     const connection = new ewelink({
       email,
       password,
+      ...app_keys
     });
 
     const data = await connection.getCredentials();
@@ -41,6 +47,7 @@ exports.GetDevice = async (req, res) => {
       const connection = new ewelink({
         at,
         region,
+        ...app_keys,
       });
 
       const status = await connection.getDevicePowerState(deviceid);
@@ -74,6 +81,7 @@ exports.GetDevices = async (req, res) => {
     const connection = new ewelink({
       at,
       region,
+      ...app_keys,
     });
 
     const devices = await connection.getDevices();
