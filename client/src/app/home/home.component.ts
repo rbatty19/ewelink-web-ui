@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeEnum } from '../models/ewelink_enums';
-import { SocketService } from '../services/socket2.service';
 import { SwitchService } from '../services/switch.service';
 import { ThemeService } from '../services/theme.service';
 
@@ -14,7 +13,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public themeEnum = ThemeEnum;
 
-  constructor(private router: Router, private switchService: SwitchService, private socketService: SocketService, public themeService: ThemeService) { }
+  constructor(private router: Router, private switchService: SwitchService,  public themeService: ThemeService) { }
 
   ngOnInit() {
   }
@@ -27,7 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.switchService.isNewState.unsubscribe();
-    this.socketService.socket?.complete();
   }
 
 

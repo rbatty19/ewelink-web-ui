@@ -18,15 +18,13 @@ export class DeviceComponent implements OnInit {
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
   public labelState: string;
-  public iconState: string;
 
   constructor(private switchService: SwitchService, public themeService: ThemeService) { }
 
   ngOnInit(): void {
-    this.labelState = this.device.deviceInfo.params.params.switch === StateEnum.on ? 'On' : 'Off';
-    this.iconState = this.device.deviceInfo.params.params.switch === StateEnum.on ? 'on_device' : 'off_device';
+    this.labelState = this.device.deviceInfo.params.switch === StateEnum.on ? StateEnum.onText : StateEnum.offText;
 
-    this.checkControl.setValue(this.device.deviceInfo.params.params.switch === StateEnum.on, { emitEvent: false });
+    this.checkControl.setValue(this.device.deviceInfo.params.switch === StateEnum.on, { emitEvent: false });
 
     this.checkControl.valueChanges.subscribe(res => {
       this.onChange.emit({ deviceid: this.device.deviceid, newValue: res });
@@ -35,8 +33,7 @@ export class DeviceComponent implements OnInit {
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
         this.checkControl.setValue(res.newValue, { emitEvent: false });
-        this.labelState = res.newValue ? 'On' : 'Off';
-        this.iconState = res.newValue ? 'on_device' : 'off_device';
+        this.labelState = res.newValue ? StateEnum.onText : StateEnum.offText;
       }
     });
 

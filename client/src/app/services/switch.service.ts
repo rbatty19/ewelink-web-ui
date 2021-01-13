@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Data } from "../models/data";
+import { DataLogin } from "../models/data_login";
 import { catchError } from "rxjs/operators";
 import { Subject, throwError } from "rxjs";
 import { Device } from "../models/device";
@@ -21,12 +21,12 @@ export class SwitchService {
     this.isNewState = new Subject<ChangeValue>();
   }
 
-  getDevices(user: Data) {
+  getDevices(user: DataLogin) {
     return this.http.post<ResponseData<Device[]>>(`${environment.urlBase}/devices`, { region: user.region, at: user.at })
     .pipe(catchError(this.errorHandle));
   }
 
-  getDevice(deviceid: string, user: Data) {
+  getDevice(deviceid: string, user: DataLogin) {
     return this.http
       .post<ResponseData<Device>>(`${environment.urlBase}/device`, { deviceid: deviceid, region: user.region, at: user.at })
       .pipe(catchError(this.errorHandle));

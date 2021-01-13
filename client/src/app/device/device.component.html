@@ -1,46 +1,25 @@
-<mat-card
-  class="mat-elevation-z4 animate__animated animate__fadeIn"
-  fxLayout="row wrap"
-  fxLayoutAlign="center center"
->
+<mat-card class="mat-elevation-z4 animate__animated animate__fadeIn" fxLayout="row wrap" fxLayoutAlign="center center">
   <div fxFlex>
     <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
       <mat-card-title>
-        <img
-          [ngClass]="{ darkModeContrast: themeService.isDarkMode }"
-          [src]="device.deviceInfo.brandLogoUrl"
-          alt="brand logo"
-          class="img"
-        />
+        <img [ngClass]="{ darkModeContrast: themeService.isDarkMode }" [src]="device.deviceInfo.brandLogoUrl"
+          alt="brand logo" class="img" />
       </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content
-      fxLayout="column wrap"
-      fxLayoutAlign="center start"
-      style="margin-bottom: 0px; overflow-wrap: anywhere"
-    >
+    <mat-card-content fxLayout="column wrap" fxLayoutAlign="center start"
+      style="margin-bottom: 0px; overflow-wrap: anywhere">
       <b style="font-size: 18px">{{ device.name }}</b>
       <!-- <p>{{device.deviceid}}</p> -->
       <br />
-      <mat-slide-toggle
-        [checked]="checkControl.value"
-        color="primary"
-        (change)="changeManully()"
-        >{{ labelState }}</mat-slide-toggle
-      >
-      <br />      
+      <mat-slide-toggle [checked]="checkControl.value" color="primary" (change)="changeManully()">{{ labelState }}
+      </mat-slide-toggle>
+      <br />
     </mat-card-content>
   </div>
 
   <div class="device">
-    <input
-      class="checkbox"
-      type="checkbox"
-      name="switch"
-      [id]="device.deviceid"
-      [formControl]="checkControl"
-    />
+    <input class="checkbox" type="checkbox" name="switch" [id]="device.deviceid" [formControl]="checkControl" />
     <label class="switch" [for]="device.deviceid"></label>
   </div>
 </mat-card>

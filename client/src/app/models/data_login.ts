@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export interface Data {
+export interface DataLogin {
   at:     string;
   rt:     string;
   user:   User;

@@ -1,6 +1,8 @@
 export enum StateEnum {
   on = 'on',
-  off = 'off'
+  off = 'off',
+  onText = 'On',
+  offText = 'Off',
 }
 
 export enum ThemeEnum {

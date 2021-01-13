@@ -25,6 +25,7 @@ export const environment = {
     }
   ],
   urlBase: 'https://ewelink-web-api-git-dev.rober191.vercel.app',
+  urlWebSocket: (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`
 };
 
 /*
