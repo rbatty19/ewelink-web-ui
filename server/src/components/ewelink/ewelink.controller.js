@@ -97,16 +97,16 @@ exports.GetDevices = async (req, res) => {
         request: false, // used in socket wsp
       };
       //
-      if (device?.tags?.ck_channel_name) {
+      if ('ck_channel_name' in device.tags) {
         let deviceChannels = [];
-        Object.values(device?.tags?.ck_channel_name).forEach((channel, index) => {
+        Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
           deviceChannels.push({
             name: channel,
             parentName: device.name,
             parentDeviceId: device.deviceid,
             channel: index,
-            switch: device?.params?.switches[index]?.switch,
-            state: device?.params?.switches[index]?.switch === 'on',
+            switch: device.params.switches[index].switch,
+            state: device.params.switches[index].switch === 'on',
           });
         });
         deviceToAdd = {
@@ -119,7 +119,7 @@ exports.GetDevices = async (req, res) => {
           ...deviceToAdd,
           isMultipleChannelDevice: false,
           // Device is turned off, it's offline
-          state: !device.online ? false : device?.params?.params?.switch,
+          state: !device.online ? false : device.params.params.switch,
         };     
       }
       //
