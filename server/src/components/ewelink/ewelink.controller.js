@@ -105,7 +105,8 @@ exports.GetDevices = async (req, res) => {
             parentName: device.name,
             parentDeviceId: device.deviceid,
             channel: index,
-            switchData: device?.params?.switches[index],
+            switch: device?.params?.switches[index]?.switch,
+            state: device?.params?.switches[index]?.switch === 'on',
           });
         });
         deviceToAdd = {

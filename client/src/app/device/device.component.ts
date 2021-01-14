@@ -46,4 +46,29 @@ export class DeviceComponent implements OnInit {
     this.onChange.emit({ deviceid: this.device.deviceid, newValue: !this.checkControl.value });
   }
 
+  changeChannelManully(item: any) {
+
+
+    // const a = {
+    //   action: 'update',
+    //   apikey: 'd0738e18-6fa3-42bb-92e4-03401abf0d48',
+    //   deviceid: '100086d3b6',
+    //   params: {
+    //     switches: [
+    //       { switch: 'on', outlet: 0 },
+    //       { switch: 'off', outlet: 1 },
+    //       { switch: 'off', outlet: 2 },
+    //       { switch: 'off', outlet: 3 },
+    //     ],
+    //   },
+    //   sequence: '1610583849988',
+    //   tempRec: '100086d3b6',
+    //   userAgent: 'app',
+    // };
+    
+
+    console.log(item)
+    // this.onChange.emit({ deviceid: this.device.deviceid,  newValue: !this.checkControl.value });
+  }
+
 }

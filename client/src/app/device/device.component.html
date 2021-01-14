@@ -36,8 +36,12 @@
       <ng-container *ngIf="device.isMultipleChannelDevice">
         <div *ngFor="let item of device.deviceChannels; let i = index">
           <h1>{{ item.name }}</h1>
-          <mat-slide-toggle [disabled]="true">Working on this feature</mat-slide-toggle>
-         
+          <mat-slide-toggle
+            [disabled]="false"
+            [checked]="item.state"
+            (change)="changeChannelManully(item)"
+            >{{ item.switch }}</mat-slide-toggle
+          >
         </div>
       </ng-container>
     </mat-card-content>
