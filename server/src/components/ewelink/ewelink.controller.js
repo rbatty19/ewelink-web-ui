@@ -95,6 +95,7 @@ exports.GetDevices = async (req, res) => {
         deviceInfo: device,
         online: device.online,
         request: false, // used in socket wsp
+        showBrand: device.showBrand
       };
       //
       if ('ck_channel_name' in device.tags) {
