@@ -8,10 +8,6 @@ const { LoginValidator, GetDevicesValidator, GetDeviceValidator } = require('./e
 
 module.exports = (app) => {
   app.post('/login', LoginValidator, Login);
-  app.post(
-    '/devices',
-    //  GetDevicesValidator,
-    GetDevices,
-  );
+  app.post('/devices', GetDevicesValidator, GetDevices);
   app.post('/device', GetDeviceValidator, GetDevice);
 };
