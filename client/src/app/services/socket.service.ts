@@ -38,10 +38,11 @@ export class SocketService {
       try {
         const data = JSON.parse(message);
         if (data.params) {
-          this.switchService.isNewState.next({ deviceid: data.deviceid, newValue: data.params.switch === StateEnum.on });
+          console.log(data)
+          if (data?.params?.switch) this.switchService.isNewState.next({ deviceid: data.deviceid, newValue: data.params.switch === StateEnum.on });
         }
       } catch (error) {
-        console.log(error);
+        if (message !== 'pong') console.log({ error, message });
       }
     });
 

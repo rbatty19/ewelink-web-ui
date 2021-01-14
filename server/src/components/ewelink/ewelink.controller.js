@@ -22,12 +22,12 @@ exports.Login = async (req, res) => {
     const connection = new ewelink({
       email,
       password,
-      ...app_keys
+      ...app_keys,
     });
 
     const data = await connection.getCredentials();
     //
-    if (data.error) throw data.msg;
+    // if (data.error) throw data.msg;
     //
     res.send({ status: 200, error: false, data });
   } catch (error) {
@@ -77,28 +77,61 @@ exports.GetDevice = async (req, res) => {
 exports.GetDevices = async (req, res) => {
   try {
     const { at, region } = req.body;
-
+    //
     const connection = new ewelink({
       at,
       region,
       ...app_keys,
     });
-
-    const devices = await connection.getDevices();
-
+    //
+    const devices = await connection.getDevices();  
+    //
     let report = [];
-
+    //
     for (const device of devices) {
-      report.push({
+      let deviceToAdd = {
         name: device.name,
         deviceid: device.deviceid,
         deviceInfo: device,
-        state: device.params.params.switch,
+        online: device.online,
         request: false, // used in socket wsp
-      });
+      };
+      //
+      if (device?.tags?.ck_channel_name) {
+        let deviceChannels = [];
+        Object.values(device?.tags?.ck_channel_name).forEach((channel, index) => {
+          deviceChannels.push({
+            name: channel,
+            parentName: device.name,
+            parentDeviceId: device.deviceid,
+            channel: index,
+            switchData: device?.params?.switches[index],
+          });
+        });
+        deviceToAdd = {
+          ...deviceToAdd,
+          isMultipleChannelDevice: true,
+          deviceChannels,
+        };
+      } else {
+        deviceToAdd = {
+          ...deviceToAdd,
+          isMultipleChannelDevice: false,
+          // Device is turned off, it's offline
+          state: !device.online ? false : device?.params?.params?.switch,
+        };     
+      }
+      //
+      report.push(deviceToAdd);
     }
 
-    res.send({ status: 200, error: false, data: report });
+    res.send({
+      status: 200,
+      error: false,
+      data: report,
+      // devicesRaw: devices
+    });
+    //
   } catch (error) {
     res.status(400).send({ status: 400, error: true, data: error });
   }

@@ -23,6 +23,11 @@ mat-card-title > .img {
   padding: 10px;
 }
 
+.no-click-switch {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
 .switch {
   display: block;
   position: relative;

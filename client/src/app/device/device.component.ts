@@ -13,23 +13,26 @@ import { ThemeService } from '../services/theme.service';
 })
 export class DeviceComponent implements OnInit {
 
-  @Input() public device: Device;
+  @Input() public device: Device | any;
   @Input() public checkControl: FormControl;
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
   public labelState: string;
+  public alternativeIcon: string = 'https://static.thenounproject.com/png/252447-200.png';
 
   constructor(private switchService: SwitchService, public themeService: ThemeService) { }
 
   ngOnInit(): void {
-    this.labelState = this.device.deviceInfo.params.switch === StateEnum.on ? StateEnum.onText : StateEnum.offText;
 
-    this.checkControl.setValue(this.device.deviceInfo.params.switch === StateEnum.on, { emitEvent: false });
-
+    //
+    this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
+    //
+    this.checkControl.setValue(this.device.state === StateEnum.on, { emitEvent: false });
+    //
     this.checkControl.valueChanges.subscribe(res => {
       this.onChange.emit({ deviceid: this.device.deviceid, newValue: res });
     });
-
+    //
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
         this.checkControl.setValue(res.newValue, { emitEvent: false });
