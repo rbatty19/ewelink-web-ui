@@ -5,17 +5,20 @@ export const environment = {
     {
       link: 'https://github.com/Rober19/ewelink-web-ui',
       icon: 'folder',
-      text: 'App Repository'
+      text: 'App Repository',
+      isSvg: false
     },
     {
       link: 'https://github.com/Rober19',
       icon: 'github',
-      text: 'Rober19'
+      text: 'Rober19',
+      isSvg: true
     },
     {
       link: 'https://github.com/DevelopGadget',
       icon: 'github',
-      text: 'DevelopGadget'
+      text: 'DevelopGadget',
+      isSvg: true
     }
   ],
   urlWebSocket: (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`
