@@ -6,6 +6,7 @@ import { Device } from '../models/device';
 import { StateEnum } from '../models/ewelink_enums';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SocketService } from '../services/socket.service';
+import { EventService, EventType } from '../services/event.service';
 
 @Component({
   selector: 'app-switch',
@@ -22,7 +23,7 @@ export class SwitchComponent implements OnInit {
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
 
   constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService,
-    private fb: FormBuilder, private socketService: SocketService) {
+    private fb: FormBuilder, private socketService: SocketService, private eventService: EventService) {
     this.authData = JSON.parse(localStorage.getItem('data'));
     this.devicesGroup = this.fb.group({
       checkControls: this.fb.array([])
@@ -38,20 +39,45 @@ export class SwitchComponent implements OnInit {
       template: this.customNotificationTmpl,
       id: 'loading'
     });
+    this.listenEvents();
+  }
+
+  listenEvents() {
+    this.eventService.listen().subscribe(res => {
+      switch (res.type as EventType) {
+        case 'LISTEN_STATE_CHANNEL':
+          // console.log('recibido LISTEN_STATE_CHANNEL', res)
+          this.devices = this.devices.map(device_item => {
+            if (device_item.deviceid === res.data.deviceid) {
+              // this.devices.push(device_item)
+              // Object.assign(device_item, {
+              //   ...res.data
+              // })
+            }
+            return device_item;
+          })
+          // console.log(this.devices)
+          break;
+      }
+    });
   }
 
   //this method is for changing the device state from button
-  async changeState({ deviceid, newValue }) {
+  async changeState({ deviceid, params }) {
     try {
 
-      let newState = newValue ? StateEnum.on : StateEnum.off;
+      // let newState = newValue ? StateEnum.on : StateEnum.off;   
+      this.socketService.sendMessageWebSocket({
+        apikey: this.authData.user.apikey,
+        deviceid,
+        params
+      });
 
-      this.socketService.sendMessageWebSocket(this.authData, deviceid, newState);
-
-      this.switchService.isNewState.next({ deviceid: deviceid, newValue: newValue });
+      // DO NOT CHANGE UNTIL CONFIRMATION
+      // this.switchService.isNewState.next({ deviceid: deviceid, params });
 
     } catch (error) {
-
+      console.log('changeState', error)
     }
   }
 

@@ -35,12 +35,28 @@ export class SocketService {
     });
 
     this.WebSocket.onMessage.addListener(message => {
+      console.log(message)
       try {
+        //
         const data = JSON.parse(message);
+        //
         if (data.params) {
+          //
           console.log(data)
-          if (data?.params?.switch) this.switchService.isNewState.next({ deviceid: data.deviceid, newValue: data.params.switch === StateEnum.on });
-        }
+          //
+          if (data?.params?.switch || data?.params?.switches)
+            this.switchService.isNewState.next({
+              deviceid: data.deviceid,
+              params: data.params
+            });
+        } else
+          if (data.deviceid && !data.error) {
+            //
+            this.switchService.isNewState.next({
+              deviceid: data.deviceid,
+              error: Boolean(data?.error)
+            });
+          }
       } catch (error) {
         if (message !== 'pong') console.log({ error, message });
       }
@@ -55,17 +71,86 @@ export class SocketService {
 
   }
 
-  sendMessageWebSocket(user: DataLogin, deviceId: string, newState: StateEnum) {
-    const params = {
-      at: user.at,
-      apiKey: user.user.apikey,
-      deviceId: deviceId,
-      params: { switch: newState },
-    }
-    const payload = wssUpdatePayload(user, params, deviceId);
-
+  sendMessageWebSocket({ apikey, deviceid, params }: any) {
+    //
+    const payload = wssUpdatePayload({ apikey, params, deviceid });
+    //
+    console.log(payload)
+    //
     this.WebSocket.send(payload);
-
   }
 
 }
+
+
+/*
+
+
+
+import * as websocket from "websocket";
+import WebSocket from 'ws'
+import WSAP from "websocket-as-promised";
+import { wssLoginPayload } from "./lib/wssLoginPayload";
+import { wssUpdatePayload } from "./lib/wssUpdatePayload";
+// import delay from "delay";
+// import ts from "typescript";
+
+
+const W3CWebSocket = websocket.w3cwebsocket;
+const WebSocketAsPromised = WSAP;
+
+const apiUrl = (region = "us") =>
+  `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`;
+
+
+export const openWebSocketMixin = {
+
+  async openWebSocket(callback, { at, apiKey, region }) {
+    const payloadLogin = wssLoginPayload({
+      at: at,
+      apiKey: apiKey
+    });
+
+    const wsp = new WebSocketAsPromised(apiUrl(region), {
+      createWebSocket: wss => new W3CWebSocket(wss)
+    });
+
+    wsp.onMessage.addListener(message => {
+      try {
+        const data = JSON.parse(message);
+        callback(data);
+      } catch (error) {
+        callback(message);
+      }
+    });
+
+    await wsp.open();
+    await wsp.send(payloadLogin);
+
+    setInterval(async () => {
+      await wsp.send("ping");
+    }, 120000);
+
+    return wsp;
+  }
+};
+
+
+//@ts-ignore
+export class ChangeState extends WebSocket {
+  static set({ at, apiKey, deviceId, params }) {
+    // const payloadLogin = wssLoginPayload({ at, apiKey });
+
+    const payloadUpdate = wssUpdatePayload({
+      apiKey,
+      deviceId,
+      params
+    });
+
+    return payloadUpdate;
+  }
+}
+
+
+
+ */

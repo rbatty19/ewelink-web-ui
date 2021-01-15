@@ -23,14 +23,20 @@
       <b style="font-size: 18px">{{ device.name }}</b>
       <!-- <p>{{device.deviceid}}</p> -->
       <br />
-      <mat-slide-toggle
+      <div
+        (click)="changeManully(device)"
+        [class.it-click]="device.online"
         *ngIf="!device.isMultipleChannelDevice"
-        [disabled]="!device.online"
-        [checked]="checkControl.value"
-        color="primary"
-        (change)="changeManully()"
-        >{{ labelState }}
-      </mat-slide-toggle>
+        [class.no-click-switch]="!device.online"
+      >
+        <mat-slide-toggle
+          class="no-click"
+          [disabled]="!device.online"
+          [checked]="checkControl.value"
+          color="primary"
+          >{{ labelState }}
+        </mat-slide-toggle>
+      </div>
       <br />
 
       <ng-container *ngIf="device.isMultipleChannelDevice">
@@ -39,7 +45,7 @@
           <mat-slide-toggle
             [disabled]="false"
             [checked]="item.state"
-            (change)="changeChannelManully(item)"
+            (click)="changeChannelManully(item, device)"
             >{{ item.switch }}</mat-slide-toggle
           >
         </div>

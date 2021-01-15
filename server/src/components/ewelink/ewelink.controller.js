@@ -84,7 +84,7 @@ exports.GetDevices = async (req, res) => {
       ...app_keys,
     });
     //
-    const devices = await connection.getDevices();  
+    const devices = await connection.getDevices();
     //
     let report = [];
     //
@@ -95,7 +95,7 @@ exports.GetDevices = async (req, res) => {
         deviceInfo: device,
         online: device.online,
         request: false, // used in socket wsp
-        showBrand: device.showBrand
+        showBrand: device.showBrand,
       };
       //
       if ('ck_channel_name' in device.tags) {
@@ -119,9 +119,10 @@ exports.GetDevices = async (req, res) => {
         deviceToAdd = {
           ...deviceToAdd,
           isMultipleChannelDevice: false,
+          switch: device.params.switch,
           // Device is turned off, it's offline
-          state: !device.online ? false : device.params.params.switch,
-        };     
+          state: !device.online ? false : device.params.switch === 'on',
+        };
       }
       //
       report.push(deviceToAdd);
