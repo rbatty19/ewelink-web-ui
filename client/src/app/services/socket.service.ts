@@ -37,7 +37,7 @@ export class SocketService {
     });
 
     this.WebSocket.onMessage.addListener(message => {
-      console.log(message)
+      // console.log(message)
       try {
         //
         const data = JSON.parse(message);
