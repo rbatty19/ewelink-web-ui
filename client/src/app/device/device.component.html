@@ -1,37 +1,92 @@
-<mat-card class="mat-elevation-z4 animate__animated animate__fadeIn" fxLayout="row wrap" fxLayoutAlign="center center">
+<mat-card
+  class="mat-elevation-z4 animate__animated animate__fadeIn"
+  fxLayout="row wrap"
+  fxLayoutAlign="center center"
+>
+  <div *ngIf="loading" style="position: fixed; opacity: 0.5">
+    <mat-spinner [diameter]="50"> </mat-spinner>
+  </div>
+
   <div fxFlex>
     <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
       <mat-card-title>
-        <img [ngClass]="{ 'darkModeContrast': themeService.isDarkMode }"
-          [src]="device.deviceInfo.brandLogoUrl || alternativeIcon" alt="brand logo" class="img" />
+        <img
+          [ngClass]="{ darkModeContrast: themeService.isDarkMode }"
+          [src]="device.deviceInfo.brandLogoUrl || alternativeIcon"
+          alt="brand logo"
+          [class.no-click-switch]="loading"
+          class="img"
+        />
       </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content fxLayout="column wrap" fxLayoutAlign="center start" fxLayoutGap="15px"
-      style="margin-bottom: 0px; overflow-wrap: anywhere">
-
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <b style="font-size: 18px">{{ device.name }}</b>
-        <mat-icon svgIcon="preview" class="iconOn" (click)="openJSONDialog()"></mat-icon>
+    <mat-card-content
+      fxLayout="column wrap"
+      fxLayoutAlign="center start"
+      style="margin-bottom: 0px; overflow-wrap: anywhere"
+      [class.no-click-switch]="loading"
+    >
+      <b style="font-size: 18px">{{ device.name }}</b>
+      <br />
+      <div
+        (click)="changeManully(device)"
+        [class.it-click]="device.online"
+        *ngIf="!device.isMultipleChannelDevice"
+        [class.no-click-switch]="!device.online"
+      >
+        <mat-slide-toggle
+          class="no-click"
+          [disabled]="!device.online"
+          [checked]="checkControl.value"
+          color="primary"
+          >{{ labelState }}
+        </mat-slide-toggle>
       </div>
-
-      <mat-slide-toggle *ngIf="!device.isMultipleChannelDevice" [disabled]="!device.online"
-        [checked]="checkControl.value" color="primary" (change)="changeManully()">{{ labelState }}
-      </mat-slide-toggle>
+      <br />
 
       <ng-container *ngIf="device.isMultipleChannelDevice">
-        <div *ngFor="let item of device.deviceChannels; let i = index">
+        <div
+          *ngFor="let item of device.deviceChannels; let i = index"
+          [class.no-click-switch]="!device.online"
+        >
           <h1>{{ item.name }}</h1>
-          <mat-slide-toggle [disabled]="false" [checked]="item.state" color="primary"
-            (change)="changeChannelManully(item)">{{ item.switch }}</mat-slide-toggle>
+          <div
+            (click)="changeChannelManully(item, device)"
+            [class.no-click-switch]="!device.online"
+            [class.it-click]="device.online"
+          >
+            <mat-slide-toggle
+              [disabled]="!device.online"
+              [checked]="item.state"
+              class="no-click"
+            >
+              {{ item.switch }}
+            </mat-slide-toggle>
+          </div>
         </div>
       </ng-container>
     </mat-card-content>
   </div>
 
-  <div class="device" [class.no-click-switch]="!device.online" *ngIf="!device?.isMultipleChannelDevice">
-    <input [disabled]="device.online" class="checkbox" type="checkbox" name="switch" [id]="device.deviceid"
-      [formControl]="checkControl" />
-    <label class="switch" [for]="device.deviceid"></label>
+  <div
+    (click)="changeManully(device)"
+    [class.it-click]="device.online"
+    [class.no-click-switch]="loading"
+  >
+    <div
+      class="device no-click"
+      [class.no-click-switch]="!device.online"
+      *ngIf="!device?.isMultipleChannelDevice"
+    >
+      <input
+        [disabled]="device.online"
+        class="checkbox"
+        type="checkbox"
+        name="switch"
+        [id]="device.deviceid"
+        [checked]="checkControl.value"
+      />
+      <label class="switch" [for]="device.deviceid"></label>
+    </div>
   </div>
 </mat-card>

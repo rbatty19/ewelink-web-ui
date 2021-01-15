@@ -21,7 +21,7 @@ exports.Login = async (req, res) => {
 
     const connection = new ewelink({
       email,
-      password,
+      password: Buffer.from(password, 'base64').toString(),
       ...app_keys,
     });
 
@@ -50,7 +50,8 @@ exports.GetDevice = async (req, res) => {
         ...app_keys,
       });
 
-      const status = await connection.getDevicePowerState(deviceid);
+      const status = await connection.getDevice(deviceid);
+      console.log(status);
 
       res.send({ status: 200, error: false, data: status });
     } else {
@@ -84,7 +85,7 @@ exports.GetDevices = async (req, res) => {
       ...app_keys,
     });
     //
-    const devices = await connection.getDevices();  
+    const devices = await connection.getDevices();
     //
     let report = [];
     //
@@ -95,7 +96,7 @@ exports.GetDevices = async (req, res) => {
         deviceInfo: device,
         online: device.online,
         request: false, // used in socket wsp
-        showBrand: device.showBrand
+        showBrand: device.showBrand,
       };
       //
       if ('ck_channel_name' in device.tags) {
@@ -119,9 +120,10 @@ exports.GetDevices = async (req, res) => {
         deviceToAdd = {
           ...deviceToAdd,
           isMultipleChannelDevice: false,
+          switch: device.params.switch,
           // Device is turned off, it's offline
-          state: !device.online ? false : device.params.params.switch,
-        };     
+          state: !device.online ? false : device.params.switch === 'on',
+        };
       }
       //
       report.push(deviceToAdd);

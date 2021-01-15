@@ -24,6 +24,15 @@ mat-card-title > .img {
   padding: 10px;
 }
 
+.no-click {
+  pointer-events: none; 
+}
+
+.it-click {
+  // pointer-events: fill; 
+  cursor: pointer;
+}
+
 .no-click-switch {
   pointer-events: none;
   opacity: 0.2;

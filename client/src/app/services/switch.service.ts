@@ -15,26 +15,28 @@ export class SwitchService {
 
   public isNewState: Subject<ChangeValue> = new Subject<ChangeValue>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   initSubject() {
     this.isNewState = new Subject<ChangeValue>();
   }
 
-  getDevices(user: DataLogin) {
-    return this.http.post<ResponseData<Device[]>>(`${environment.urlBase}/devices`, { region: user.region, at: user.at })
-    .pipe(catchError(this.errorHandle));
+  getDevices() {
+    const userData = this.getAuth();
+    return this.http.post<ResponseData<Device[]>>(`${environment.urlBase}/devices`, { region: userData.region, at: userData.at })
+      .pipe(catchError(this.errorHandle));
   }
 
-  getDevice(deviceid: string, user: DataLogin) {
+  getDevice(deviceid: string) {
+    const userData = this.getAuth();
     return this.http
-      .post<ResponseData<Device>>(`${environment.urlBase}/device`, { deviceid: deviceid, region: user.region, at: user.at })
+      .post<ResponseData<Device>>(`${environment.urlBase}/device`, { deviceid: deviceid, region: userData.region, at: userData.at })
       .pipe(catchError(this.errorHandle));
   }
 
   getCredentials() {
     return this.http.get(`${environment.urlBase}/ewecredentials`)
-    .pipe(catchError(this.errorHandle));
+      .pipe(catchError(this.errorHandle));
   }
 
   setDeviceStatus(state: any, deviceid: string) {
@@ -49,8 +51,12 @@ export class SwitchService {
       .pipe(catchError(this.errorHandle));
   }
 
+  getAuth(): DataLogin {
+    return JSON.parse(localStorage.getItem('data'));
+  }
+
   private errorHandle(res) {
-    localStorage.clear();
+    // localStorage.clear();
     return throwError(res);
   }
 }

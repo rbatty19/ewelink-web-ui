@@ -26,7 +26,9 @@ export class SocketService {
  * @param callback
  * @param heartbeat
  */
-  async openWebSocket(user: DataLogin) {
+  async openWebSocket() {
+
+    const user = this.switchService.getAuth()
 
     const payloadLogin = wssLoginPayload(user);
 
@@ -35,12 +37,28 @@ export class SocketService {
     });
 
     this.WebSocket.onMessage.addListener(message => {
+      // console.log(message)
       try {
+        //
         const data = JSON.parse(message);
+        //
         if (data.params) {
-          console.log(data)
-          if (data?.params?.switch) this.switchService.isNewState.next({ deviceid: data.deviceid, newValue: data.params.switch === StateEnum.on });
-        }
+          //
+          // console.log(data)
+          //
+          if (data?.params?.switch || data?.params?.switches)
+            this.switchService.isNewState.next({
+              deviceid: data.deviceid,
+              params: data.params
+            });
+        } else
+          if (data.deviceid && !data.error) {
+            //
+            this.switchService.isNewState.next({
+              deviceid: data.deviceid,
+              error: Boolean(data?.error)
+            });
+          }
       } catch (error) {
         if (message !== 'pong') console.log({ error, message });
       }
@@ -55,17 +73,19 @@ export class SocketService {
 
   }
 
-  sendMessageWebSocket(user: DataLogin, deviceId: string, newState: StateEnum) {
-    const params = {
-      at: user.at,
-      apiKey: user.user.apikey,
-      deviceId: deviceId,
-      params: { switch: newState },
-    }
-    const payload = wssUpdatePayload(user, params, deviceId);
+  sendMessageWebSocket({ deviceid, params }: any) {
+    //
+    const { user } = this.switchService.getAuth()
 
+    if (!user) return;
+
+    console.log(user)
+    //
+    const payload = wssUpdatePayload({ apikey: user.apikey, params, deviceid });
+    //
+    // console.log(payload)
+    //
     this.WebSocket.send(payload);
-
   }
 
 }

@@ -18,14 +18,14 @@ export const wssLoginPayload = (user: DataLogin) => {
   return JSON.stringify(payload);
 };
 
-export const wssUpdatePayload = (user: DataLogin, params: any, deviceId: string) => {
+export const wssUpdatePayload = ({ apikey, params, deviceid }) => {
   const timeStamp = (new Date()).getTime() / 1000;
   const sequence = Math.floor(timeStamp * 1000);
   const payload = {
     action: 'update',
-    deviceid: `${deviceId}`,
-    apikey: user.user.apikey,
-    selfApikey: user.user.apikey,
+    deviceid,
+    apikey,
+    selfApikey: apikey,
     params,
     sequence,
     userAgent: 'app',
