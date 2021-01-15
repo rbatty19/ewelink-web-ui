@@ -14,11 +14,21 @@ import { HomeComponent } from './home/home.component';
 import { DeviceComponent } from './device/device.component';
 import { CommonModule } from "@angular/common";
 import { MaterialDefinitionsModule } from "./material-definitions/material-definitions.module";
-import { MatIconModule } from "@angular/material/icon";
 import { MenuInfoComponent } from './menu-info/menu-info.component';
+import { JsonPrettyDialogComponent } from './json-pretty-dialog/json-pretty-dialog.component';
+import { NgxJsonViewerModule } from "ngx-json-viewer";
 
 @NgModule({
-  declarations: [AppComponent, SwitchComponent, LoginComponent, HomeComponent, DeviceComponent, MenuInfoComponent],
+  declarations: [
+    AppComponent,
+    SwitchComponent,
+    LoginComponent,
+    HomeComponent,
+    DeviceComponent,
+    MenuInfoComponent,
+    JsonPrettyDialogComponent,
+  ],
+  entryComponents: [JsonPrettyDialogComponent],
   imports: [
     BrowserModule,
     CommonModule,
@@ -28,7 +38,7 @@ import { MenuInfoComponent } from './menu-info/menu-info.component';
     FlexLayoutModule,
     ReactiveFormsModule,
     MaterialDefinitionsModule,
-    MatIconModule,
+    NgxJsonViewerModule,
     NotifierModule.withConfig({
       position: { vertical: { position: 'top', distance: 74 }, horizontal: { position: "right" } }
     })

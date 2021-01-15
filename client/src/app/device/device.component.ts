@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { environment } from 'src/environments/environment';
+import { JsonPrettyDialogComponent } from '../json-pretty-dialog/json-pretty-dialog.component';
 import ChangeValue from '../models/change_value';
 import { Device } from '../models/device';
 import { StateEnum } from '../models/ewelink_enums';
@@ -18,12 +21,11 @@ export class DeviceComponent implements OnInit {
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
   public labelState: string;
-  public alternativeIcon: string = 'https://static.thenounproject.com/png/252447-200.png';
+  public alternativeIcon: string = environment.alternativeIcon;
 
-  constructor(private switchService: SwitchService, public themeService: ThemeService) { }
+  constructor(private switchService: SwitchService, public themeService: ThemeService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-
     //
     this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
@@ -65,10 +67,20 @@ export class DeviceComponent implements OnInit {
     //   tempRec: '100086d3b6',
     //   userAgent: 'app',
     // };
-    
+
 
     console.log(item)
     // this.onChange.emit({ deviceid: this.device.deviceid,  newValue: !this.checkControl.value });
+  }
+
+  openJSONDialog() {
+    this.dialog.open(JsonPrettyDialogComponent, {
+      autoFocus: false,
+      data: this.device.deviceInfo,
+      hasBackdrop: true,
+      maxHeight: '90%',
+      panelClass: ['animate__animated','animate__zoomIn', 'dialog-responsive']
+    });
   }
 
 }

@@ -8,10 +8,10 @@ import {
   MatProgressSpinnerModule,
   MatSliderModule,
   MatToolbarModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule,
+  MatSlideToggleModule
 } from '@angular/material';
-
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -25,7 +25,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressSpinnerModule,
     MatIconModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule,
   ],
   exports: [
     MatToolbarModule,
@@ -38,7 +39,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressSpinnerModule,
     MatIconModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ]
 })
 export class MaterialDefinitionsModule { }

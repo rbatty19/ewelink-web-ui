@@ -25,7 +25,8 @@ export const environment = {
     }
   ],
   urlBase: 'http://localhost:4231',
-  urlWebSocket: (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`
+  urlWebSocket: (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`,
+  alternativeIcon: 'https://static.thenounproject.com/png/252447-200.png'
 };
 
 /*
