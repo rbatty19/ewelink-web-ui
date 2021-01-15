@@ -31,16 +31,11 @@ export class DeviceComponent implements OnInit {
     //
     this.checkControl.setValue(this.device.state, { emitEvent: false });
     //
-    this.checkControl.valueChanges.subscribe(res => {
-      console.log(1, res)
-      this.onChange.emit({
-        deviceid: this.device.deviceid,
-        params: {}
-      });
+    this.checkControl.valueChanges.subscribe(res => {     
+      this.changeManully(this.device)
     });
     //
     this.switchService.isNewState.subscribe(res => {
-      console.log(2, res)
       if (res.deviceid === this.device.deviceid) {
         //
         if (res.params?.switch) {
@@ -48,13 +43,15 @@ export class DeviceComponent implements OnInit {
           this.checkControl.setValue(res.params.switch === StateEnum.on, { emitEvent: false });
           //
           this.labelState = res.params.switch === StateEnum.on ? StateEnum.onText : StateEnum.offText
+
+          return;
         }
         //
         if (res.params?.switches) {
           this.device = {
             ...this.device,
-            deviceChannels: this.device.deviceChannels.map((d_channel, index_channel) => {
-              
+            deviceChannels: this.device.deviceChannels.map((d_channel) => {
+
               const d_c_switch = res.params.switches[d_channel.channel].switch
               d_channel.state = d_c_switch === StateEnum.on;
               d_channel.switch = d_c_switch;
@@ -62,6 +59,7 @@ export class DeviceComponent implements OnInit {
               return d_channel;
             })
           }
+          return;
         }
         //
         if (!this.device.isMultipleChannelDevice && !res.error) {
@@ -80,7 +78,16 @@ export class DeviceComponent implements OnInit {
           // }
           // console.log('emitido  LISTEN_STATE_CHANNEL', device_p_data)
           // this.eventService.emit('LISTEN_STATE_CHANNEL', device_p_data)
+          return;
         }
+
+        if (this.device.isMultipleChannelDevice && !res.error) {
+
+
+          return;
+        }
+
+
         //
         //  this.checkControl.setValue(res.params, { emitEvent: false });
         // this.labelState = res.newValue ? StateEnum.onText : StateEnum.offText;
