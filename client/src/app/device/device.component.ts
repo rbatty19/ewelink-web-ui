@@ -25,7 +25,6 @@ export class DeviceComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log('DeviceComponent ', this.device)
     //
     this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
