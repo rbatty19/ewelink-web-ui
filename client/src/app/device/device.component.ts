@@ -24,15 +24,10 @@ export class DeviceComponent implements OnInit {
   constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService) { }
 
   ngOnInit(): void {
-
     //
     this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
     this.checkControl.setValue(this.device.state, { emitEvent: false });
-    //
-    this.checkControl.valueChanges.subscribe(res => {     
-      this.changeManully(this.device)
-    });
     //
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
@@ -47,22 +42,13 @@ export class DeviceComponent implements OnInit {
         }
         //
         if (res.params?.switches) {
-          this.device = {
-            ...this.device,
-            deviceChannels: this.device.deviceChannels.map((d_channel) => {
-
-              const d_c_switch = res.params.switches[d_channel.channel].switch
-              d_channel.state = d_c_switch === StateEnum.on;
-              d_channel.switch = d_c_switch;
-
-              return d_channel;
-            })
-          }
+          this.setDeviceChannels(res)
           return;
         }
         //
         if (!this.device.isMultipleChannelDevice && !res.error) {
           //
+
           this.checkControl.setValue(!this.device.state, { emitEvent: false });
           //
           this.labelState = !this.device.state ? StateEnum.onText : StateEnum.offText;
@@ -79,10 +65,20 @@ export class DeviceComponent implements OnInit {
           // this.eventService.emit('LISTEN_STATE_CHANNEL', device_p_data)
           return;
         }
-
+        console.log(this.device.isMultipleChannelDevice && !res.error)
         if (this.device.isMultipleChannelDevice && !res.error) {
 
-
+          this.device.loading = true;
+          // this.switchService.getDevice
+          this.switchService.getDevice(this.device.deviceid).subscribe(async res => {
+            //
+            const device_data = res.data;
+            //
+            this.setDeviceChannels(device_data)            
+          }, err => {
+            console.log(err)
+          });
+          this.device.loading = false;
           return;
         }
 
@@ -141,6 +137,21 @@ export class DeviceComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  setDeviceChannels(device_data) {
+    this.device = {
+      ...this.device,
+      deviceChannels: this.device.deviceChannels.map((d_channel) => {
+
+        const d_c_switch = device_data.params.switches[d_channel.channel].switch
+        d_channel.state = d_c_switch === StateEnum.on;
+        d_channel.switch = d_c_switch;
+
+        return d_channel;
+      })
+    }
   }
 
 }

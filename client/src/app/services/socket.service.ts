@@ -26,7 +26,9 @@ export class SocketService {
  * @param callback
  * @param heartbeat
  */
-  async openWebSocket(user: DataLogin) {
+  async openWebSocket() {
+
+    const user = this.switchService.getAuth()
 
     const payloadLogin = wssLoginPayload(user);
 
@@ -35,7 +37,7 @@ export class SocketService {
     });
 
     this.WebSocket.onMessage.addListener(message => {
-      // console.log(message)
+      console.log(message)
       try {
         //
         const data = JSON.parse(message);
@@ -71,11 +73,17 @@ export class SocketService {
 
   }
 
-  sendMessageWebSocket({ apikey, deviceid, params }: any) {
+  sendMessageWebSocket({ deviceid, params }: any) {
     //
-    const payload = wssUpdatePayload({ apikey, params, deviceid });
+    const { user } = this.switchService.getAuth()
+
+    if (!user) return;
+
+    console.log(user)
     //
-    console.log(payload)
+    const payload = wssUpdatePayload({ apikey: user.apikey, params, deviceid });
+    //
+    // console.log(payload)
     //
     this.WebSocket.send(payload);
   }

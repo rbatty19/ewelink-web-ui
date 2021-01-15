@@ -4,6 +4,7 @@
   fxLayoutAlign="center center"
 >
   <div fxFlex>
+    <mat-spinner [diameter]="20" *ngIf="device.loading"></mat-spinner>
     <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
       <mat-card-title>
         <img
@@ -19,6 +20,7 @@
       fxLayout="column wrap"
       fxLayoutAlign="center start"
       style="margin-bottom: 0px; overflow-wrap: anywhere"
+      [class.no-click-switch]="device.loading"
     >
       <b style="font-size: 18px">{{ device.name }}</b>
       <!-- <p>{{device.deviceid}}</p> -->
@@ -40,32 +42,48 @@
       <br />
 
       <ng-container *ngIf="device.isMultipleChannelDevice">
-        <div *ngFor="let item of device.deviceChannels; let i = index">
+        <div
+          *ngFor="let item of device.deviceChannels; let i = index"
+          [class.no-click-switch]="!device.online"
+        >
           <h1>{{ item.name }}</h1>
-          <mat-slide-toggle
-            [disabled]="false"
-            [checked]="item.state"
+          <div
             (click)="changeChannelManully(item, device)"
-            >{{ item.switch }}</mat-slide-toggle
+            [class.no-click-switch]="!device.online"
+            [class.it-click]="device.online"
           >
+            <mat-slide-toggle
+              [disabled]="!device.online"
+              [checked]="item.state"
+              class="no-click"
+            >
+              {{ item.switch }}
+            </mat-slide-toggle>
+          </div>
         </div>
       </ng-container>
     </mat-card-content>
   </div>
 
   <div
-    class="device"
-    [class.no-click-switch]="!device.online"
-    *ngIf="!device?.isMultipleChannelDevice"
+    (click)="changeManully(device)"
+    [class.it-click]="device.online"
+    [class.no-click-switch]="device.loading"
   >
-    <input
-      [disabled]="device.online"
-      class="checkbox"
-      type="checkbox"
-      name="switch"
-      [id]="device.deviceid"
-      [formControl]="checkControl"
-    />
-    <label class="switch" [for]="device.deviceid"></label>
+    <div
+      class="device no-click"
+      [class.no-click-switch]="!device.online"
+      *ngIf="!device?.isMultipleChannelDevice"
+    >
+      <input
+        [disabled]="device.online"
+        class="checkbox"
+        type="checkbox"
+        name="switch"
+        [id]="device.deviceid"
+        [checked]="checkControl.value"
+      />
+      <label class="switch" [for]="device.deviceid"></label>
+    </div>
   </div>
 </mat-card>

@@ -50,7 +50,8 @@ exports.GetDevice = async (req, res) => {
         ...app_keys,
       });
 
-      const status = await connection.getDevicePowerState(deviceid);
+      const status = await connection.getDevice(deviceid);
+      console.log(status);
 
       res.send({ status: 200, error: false, data: status });
     } else {

@@ -17,14 +17,12 @@ import { EventService, EventType } from '../services/event.service';
 export class SwitchComponent implements OnInit {
 
   public devices: Device[] = [];
-  public authData: Data | any;
   public devicesGroup: FormGroup;
 
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
 
   constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService,
     private fb: FormBuilder, private socketService: SocketService, private eventService: EventService) {
-    this.authData = JSON.parse(localStorage.getItem('data'));
     this.devicesGroup = this.fb.group({
       checkControls: this.fb.array([])
     });
@@ -66,9 +64,10 @@ export class SwitchComponent implements OnInit {
   async changeState({ deviceid, params }) {
     try {
 
+      console.log(this.switchService.getAuth())
+
       // let newState = newValue ? StateEnum.on : StateEnum.off;   
-      this.socketService.sendMessageWebSocket({
-        apikey: this.authData.user.apikey,
+      this.socketService.sendMessageWebSocket({       
         deviceid,
         params
       });
@@ -83,10 +82,10 @@ export class SwitchComponent implements OnInit {
 
   // this method get all devices data
   getAllDevices() {
-    this.switchService.getDevices(this.authData).subscribe(async res => {
+    this.switchService.getDevices().subscribe(async res => {
       this.devices = res.data;
       this.devicesControl.patchValue(Array.from(res.data, (v, k) => this.devicesControl.push(new FormControl(false))));
-      await this.socketService.openWebSocket(this.authData);
+      await this.socketService.openWebSocket();
       this.notifier.hide('loading');
     }, err => {
       this.notifier.hide('loading');
