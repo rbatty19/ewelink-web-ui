@@ -21,7 +21,7 @@ exports.Login = async (req, res) => {
 
     const connection = new ewelink({
       email,
-      password: atob(password),
+      password: Buffer.from(password, 'base64').toString(),
       ...app_keys,
     });
 
