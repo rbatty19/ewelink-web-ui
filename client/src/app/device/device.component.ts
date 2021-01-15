@@ -19,6 +19,7 @@ export class DeviceComponent implements OnInit {
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
   public labelState: string;
+  public loading: boolean;
   public alternativeIcon: string = 'https://static.thenounproject.com/png/252447-200.png';
 
   constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService) { }
@@ -31,13 +32,15 @@ export class DeviceComponent implements OnInit {
     //
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
-        //
+
         if (res.params?.switch) {
+          this.initLoading();
           //
           this.checkControl.setValue(res.params.switch === StateEnum.on, { emitEvent: false });
           //
           this.labelState = res.params.switch === StateEnum.on ? StateEnum.onText : StateEnum.offText
 
+          this.stopLoading();
           return;
         }
         //
@@ -47,8 +50,8 @@ export class DeviceComponent implements OnInit {
         }
         //
         if (!this.device.isMultipleChannelDevice && !res.error) {
+          this.initLoading();
           //
-
           this.checkControl.setValue(!this.device.state, { emitEvent: false });
           //
           this.labelState = !this.device.state ? StateEnum.onText : StateEnum.offText;
@@ -63,30 +66,26 @@ export class DeviceComponent implements OnInit {
           // }
           // console.log('emitido  LISTEN_STATE_CHANNEL', device_p_data)
           // this.eventService.emit('LISTEN_STATE_CHANNEL', device_p_data)
+          this.stopLoading();
           return;
         }
-        console.log(this.device.isMultipleChannelDevice && !res.error)
         if (this.device.isMultipleChannelDevice && !res.error) {
-
-          this.device.loading = true;
-          // this.switchService.getDevice
+          this.initLoading();
+          // 
           this.switchService.getDevice(this.device.deviceid).subscribe(async res => {
             //
             const device_data = res.data;
             //
-            this.setDeviceChannels(device_data)            
+            this.setDeviceChannels(device_data)
           }, err => {
             console.log(err)
           });
-          this.device.loading = false;
+          this.stopLoading();
           return;
         }
 
-
-        //
-        //  this.checkControl.setValue(res.params, { emitEvent: false });
-        // this.labelState = res.newValue ? StateEnum.onText : StateEnum.offText;
       }
+      this.stopLoading();
     });
 
   }
@@ -96,6 +95,7 @@ export class DeviceComponent implements OnInit {
    * @param device 
    */
   changeManully(device) {
+    this.initLoading();
     //
     const new_state = {
       switch: !device.state ? StateEnum.on : StateEnum.off
@@ -109,7 +109,6 @@ export class DeviceComponent implements OnInit {
       }
     });
 
-
   }
 
   /**
@@ -118,8 +117,8 @@ export class DeviceComponent implements OnInit {
    * @param device 
    */
   changeChannelManully(item: any, device: any) {
-
-
+    this.initLoading();
+    //
     const new_channel_state = {
       switch: !item.state ? StateEnum.on : StateEnum.off,
       outlet: item.channel
@@ -152,6 +151,14 @@ export class DeviceComponent implements OnInit {
         return d_channel;
       })
     }
+  }
+
+  initLoading() {
+    this.loading = true;
+  }
+
+  stopLoading() {
+    this.loading = false;
   }
 
 }

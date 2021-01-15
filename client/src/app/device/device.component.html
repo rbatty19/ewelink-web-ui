@@ -3,14 +3,18 @@
   fxLayout="row wrap"
   fxLayoutAlign="center center"
 >
+  <div *ngIf="loading" style="position: fixed; opacity: 0.5">
+    <mat-spinner [diameter]="50"> </mat-spinner>
+  </div>
+
   <div fxFlex>
-    <mat-spinner [diameter]="20" *ngIf="device.loading"></mat-spinner>
     <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
       <mat-card-title>
         <img
           [ngClass]="{ darkModeContrast: themeService.isDarkMode }"
           [src]="device.deviceInfo.brandLogoUrl || alternativeIcon"
           alt="brand logo"
+          [class.no-click-switch]="loading"
           class="img"
         />
       </mat-card-title>
@@ -20,10 +24,9 @@
       fxLayout="column wrap"
       fxLayoutAlign="center start"
       style="margin-bottom: 0px; overflow-wrap: anywhere"
-      [class.no-click-switch]="device.loading"
+      [class.no-click-switch]="loading"
     >
       <b style="font-size: 18px">{{ device.name }}</b>
-      <!-- <p>{{device.deviceid}}</p> -->
       <br />
       <div
         (click)="changeManully(device)"
@@ -68,7 +71,7 @@
   <div
     (click)="changeManully(device)"
     [class.it-click]="device.online"
-    [class.no-click-switch]="device.loading"
+    [class.no-click-switch]="loading"
   >
     <div
       class="device no-click"
