@@ -71,7 +71,7 @@
   <div
     (click)="changeManully(device)"
     [class.it-click]="device.online"
-    [class.no-click-switch]="loading"
+    [class.no-click-switch]="loading || !device.online"
   >
     <div
       class="device no-click"
