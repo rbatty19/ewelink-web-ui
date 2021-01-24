@@ -17,6 +17,7 @@ import { EventService, EventType } from '../services/event.service';
 export class SwitchComponent implements OnInit {
 
   public devices: Device[] = [];
+  public devicesRaw: any[] = [];
   public devicesGroup: FormGroup;
 
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
@@ -63,17 +64,11 @@ export class SwitchComponent implements OnInit {
   //this method is for changing the device state from button
   async changeState({ deviceid, params }) {
     try {
-
-      console.log(this.switchService.getAuth())
-
-      // let newState = newValue ? StateEnum.on : StateEnum.off;   
-      this.socketService.sendMessageWebSocket({       
+      //      
+      this.socketService.sendMessageWebSocket({
         deviceid,
         params
       });
-
-      // DO NOT CHANGE UNTIL CONFIRMATION
-      // this.switchService.isNewState.next({ deviceid: deviceid, params });
 
     } catch (error) {
       console.log('changeState', error)
@@ -82,8 +77,13 @@ export class SwitchComponent implements OnInit {
 
   // this method get all devices data
   getAllDevices() {
-    this.switchService.getDevices().subscribe(async res => {
+    this.switchService.getDevices().subscribe(async (res: any) => {
+
       this.devices = res.data;
+      if (!res?.data?.length) {
+        this.devicesRaw = res.devicesRaw;
+      }
+
       this.devicesControl.patchValue(Array.from(res.data, (v, k) => this.devicesControl.push(new FormControl(false))));
       await this.socketService.openWebSocket();
       this.notifier.hide('loading');

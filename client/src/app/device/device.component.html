@@ -3,90 +3,116 @@
   fxLayout="row wrap"
   fxLayoutAlign="center center"
 >
-  <div *ngIf="loading" style="position: fixed; opacity: 0.5">
-    <mat-spinner [diameter]="50"> </mat-spinner>
-  </div>
+  <div *ngIf="!errorFromDevices">
+    <div *ngIf="loading" style="position: fixed; opacity: 0.5">
+      <mat-spinner [diameter]="50"> </mat-spinner>
+    </div>
 
-  <div fxFlex>
-    <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
-      <mat-card-title>
-        <img
-          [ngClass]="{ darkModeContrast: themeService.isDarkMode }"
-          [src]="device.deviceInfo.brandLogoUrl || alternativeIcon"
-          alt="brand logo"
-          [class.no-click-switch]="loading"
-          class="img"
-        />
-      </mat-card-title>
-    </mat-card-header>
+    <div fxFlex>
+      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
+        <mat-card-title>
+          <img
+            [ngClass]="{ darkModeContrast: themeService.isDarkMode }"
+            [src]="device.deviceInfo.brandLogoUrl || alternativeIcon"
+            alt="brand logo"
+            [class.no-click-switch]="loading"
+            class="img"
+          />
+        </mat-card-title>
+      </mat-card-header>
 
-    <mat-card-content
-      fxLayout="column wrap"
-      fxLayoutAlign="center start"
-      style="margin-bottom: 0px; overflow-wrap: anywhere"
-      [class.no-click-switch]="loading"
-    >
-      <b style="font-size: 18px">{{ device.name }}</b>
-      <br />
-      <div
-        (click)="changeManully(device)"
-        [class.it-click]="device.online"
-        *ngIf="!device.isMultipleChannelDevice"
-        [class.no-click-switch]="!device.online"
+      <mat-card-content
+        fxLayout="column wrap"
+        fxLayoutAlign="center start"
+        style="margin-bottom: 0px; overflow-wrap: anywhere"
+        [class.no-click-switch]="loading"
       >
-        <mat-slide-toggle
-          class="no-click"
-          [disabled]="!device.online"
-          [checked]="checkControl.value"
-          color="primary"
-          >{{ labelState }}
-        </mat-slide-toggle>
-      </div>
-      <br />
-
-      <ng-container *ngIf="device.isMultipleChannelDevice">
+        <b style="font-size: 18px">{{ device.name }}</b>
+        <br />
         <div
-          *ngFor="let item of device.deviceChannels; let i = index"
+          (click)="changeManully(device)"
+          [class.it-click]="device.online"
+          *ngIf="!device.isMultipleChannelDevice"
           [class.no-click-switch]="!device.online"
         >
-          <h1>{{ item.name }}</h1>
-          <div
-            (click)="changeChannelManully(item, device)"
-            [class.no-click-switch]="!device.online"
-            [class.it-click]="device.online"
-          >
-            <mat-slide-toggle
-              [disabled]="!device.online"
-              [checked]="item.state"
-              class="no-click"
-            >
-              {{ item.switch }}
-            </mat-slide-toggle>
-          </div>
+          <mat-slide-toggle
+            class="no-click"
+            [disabled]="!device.online"
+            [checked]="checkControl.value"
+            color="primary"
+            >{{ labelState }}
+          </mat-slide-toggle>
         </div>
-      </ng-container>
-    </mat-card-content>
+        <br />
+
+        <ng-container *ngIf="device.isMultipleChannelDevice">
+          <div
+            *ngFor="let item of device.deviceChannels; let i = index"
+            [class.no-click-switch]="!device.online"
+          >
+            <h1>{{ item.name }}</h1>
+            <div
+              (click)="changeChannelManully(item, device)"
+              [class.no-click-switch]="!device.online"
+              [class.it-click]="device.online"
+            >
+              <mat-slide-toggle
+                [disabled]="!device.online"
+                [checked]="item.state"
+                class="no-click"
+              >
+                {{ item.switch }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </ng-container>
+      </mat-card-content>
+    </div>
+
+    <div
+      (click)="changeManully(device)"
+      [class.it-click]="device.online"
+      [class.no-click-switch]="loading || !device.online"
+    >
+      <div
+        class="device no-click"
+        [class.no-click-switch]="!device.online"
+        *ngIf="!device?.isMultipleChannelDevice"
+      >
+        <input
+          [disabled]="device.online"
+          class="checkbox"
+          type="checkbox"
+          name="switch"
+          [id]="device.deviceid"
+          [checked]="checkControl.value"
+        />
+        <label class="switch" [for]="device.deviceid"></label>
+      </div>
+    </div>
   </div>
 
-  <div
-    (click)="changeManully(device)"
-    [class.it-click]="device.online"
-    [class.no-click-switch]="loading || !device.online"
-  >
-    <div
-      class="device no-click"
-      [class.no-click-switch]="!device.online"
-      *ngIf="!device?.isMultipleChannelDevice"
-    >
-      <input
-        [disabled]="device.online"
-        class="checkbox"
-        type="checkbox"
-        name="switch"
-        [id]="device.deviceid"
-        [checked]="checkControl.value"
-      />
-      <label class="switch" [for]="device.deviceid"></label>
+  <div *ngIf="errorFromDevices">
+    <div fxFlex>
+      <mat-card-content
+        fxLayout="column wrap"
+        fxLayoutAlign="center start"
+        style="margin-bottom: 0px; overflow-wrap: anywhere"   
+      >
+        <b style="font-size: 18px">Brand: {{ device?.brandName }}</b>
+        <br>
+        <p style="font-size: 18px">Device Tag: {{ device.name }}</p>
+        <br>
+        <b style="font-size: 18px">Product Model: {{ device?.productModel }}</b>
+        <br>
+        <sub><sup>We are having problems with your device, please contact us to improve and fix it. this is a open source app for the community.
+          <br>
+          <br>
+          Feel free to open a ticket for solve the issue here: 
+          <a href="https://github.com/Rober19/ewelink-web-ui/issues" target="_blank" rel="noopener noreferrer">Github Repository</a>
+        </sup></sub>
+      
+      </mat-card-content>
     </div>
   </div>
 </mat-card>

@@ -90,6 +90,7 @@ exports.GetDevices = async (req, res) => {
     let report = [];
     //
     try {   
+
       for (const device of devices) {
         let deviceToAdd = {
           name: device.name,

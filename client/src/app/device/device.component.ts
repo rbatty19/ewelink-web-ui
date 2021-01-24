@@ -15,6 +15,7 @@ import { ThemeService } from '../services/theme.service';
 export class DeviceComponent implements OnInit {
 
   @Input() public device: Device | any;
+  @Input() public errorFromDevices: boolean;
   @Input() public checkControl: FormControl;
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
@@ -25,6 +26,8 @@ export class DeviceComponent implements OnInit {
   constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService) { }
 
   ngOnInit(): void {
+
+    if (!("state" in this.device)) return;
     //
     this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
