@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { environment } from 'src/environments/environment';
-import { JsonPrettyDialogComponent } from '../json-pretty-dialog/json-pretty-dialog.component';
 import ChangeValue from '../models/change_value';
 import { Device } from '../models/device';
 import { StateEnum } from '../models/ewelink_enums';
@@ -23,11 +20,10 @@ export class DeviceComponent implements OnInit {
   @Output() public onChange: EventEmitter<ChangeValue> = new EventEmitter<ChangeValue>();
 
   public labelState: string;
-  public alternativeIcon: string = environment.alternativeIcon;
-
   public loading: boolean;
+  public alternativeIcon: string = 'https://static.thenounproject.com/png/252447-200.png';
 
-  constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService, private dialog: MatDialog ) { }
+  constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService) { }
 
   ngOnInit(): void {
 
@@ -78,7 +74,7 @@ export class DeviceComponent implements OnInit {
         }
         if (this.device.isMultipleChannelDevice && !res.error) {
           this.initLoading();
-          //
+          // 
           this.switchService.getDevice(this.device.deviceid).subscribe(async res => {
             //
             const device_data = res.data;
@@ -98,8 +94,8 @@ export class DeviceComponent implements OnInit {
   }
 
   /**
-   *
-   * @param device
+   * 
+   * @param device 
    */
   changeManully(device) {
     this.initLoading();
@@ -119,9 +115,9 @@ export class DeviceComponent implements OnInit {
   }
 
   /**
-   *
-   * @param item
-   * @param device
+   * 
+   * @param item 
+   * @param device 
    */
   changeChannelManully(item: any, device: any) {
     this.initLoading();
@@ -166,16 +162,6 @@ export class DeviceComponent implements OnInit {
 
   stopLoading() {
     this.loading = false;
-  }
-
-  openJSONDialog() {
-    this.dialog.open(JsonPrettyDialogComponent, {
-      autoFocus: false,
-      data: this.device.deviceInfo,
-      hasBackdrop: true,
-      maxHeight: '90%',
-      panelClass: ['animate__animated','animate__zoomIn', 'dialog-responsive']
-    });
   }
 
 }

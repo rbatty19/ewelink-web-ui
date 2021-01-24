@@ -22,7 +22,7 @@ export class ThemeService {
   }
 
   initTheme() {
-    this.currentTheme = ThemeEnum.light === localStorage.getItem('activeTheme') ? ThemeEnum.light : ThemeEnum.dark;
+    this.currentTheme = ThemeEnum[localStorage.getItem('activeTheme')] || ThemeEnum.dark;
     this.renderer.setAttribute(this.document.body, 'class', this.currentTheme);
   }
 

@@ -14,16 +14,9 @@ export class AppComponent {
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private themeService: ThemeService) {
 
     this.themeService.initTheme();
-
     this.matIconRegistry.addSvgIcon(
       "github",
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/github.svg')
-    );
-
-    this.matIconRegistry.addSvgIcon(
-      'preview',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/preview.svg')
-    );
+      this.domSanitizer.bypassSecurityTrustResourceUrl('https://www.flaticon.es/svg/static/icons/svg/25/25231.svg'));
 
   }
 
