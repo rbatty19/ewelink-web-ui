@@ -10,8 +10,10 @@ mat-card-title > .img {
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
-.iconOn {
-  @include md-icon-size(32px);
+.containerIcon {
+  position: absolute;
+  right: 10px;
+  top: 8px;
   cursor: pointer;
 }
 
@@ -25,11 +27,11 @@ mat-card-title > .img {
 }
 
 .no-click {
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .it-click {
-  // pointer-events: fill; 
+  // pointer-events: fill;
   cursor: pointer;
 }
 

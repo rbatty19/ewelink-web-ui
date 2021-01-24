@@ -30,9 +30,9 @@ export class DeviceComponent implements OnInit {
 
   ngOnInit(): void {
     //
-    this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
+    this.labelState = this.device.deviceInfo.params.params.switch == StateEnum.on ? StateEnum.onText : StateEnum.offText;
     //
-    this.checkControl.setValue(this.device.state, { emitEvent: false });
+    this.checkControl.setValue(this.device.deviceInfo.params.params.switch == StateEnum.on, { emitEvent: false });
     //
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
