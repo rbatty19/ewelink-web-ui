@@ -3,7 +3,7 @@
     <mat-spinner [diameter]="50"> </mat-spinner>
   </div>
 
-  <div fxFlex>
+  <div fxFlex *ngIf="!errorFromDevices">
     <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
       <mat-card-title>
         <img [ngClass]="{ 'darkModeContrast': themeService.isDarkMode }"
@@ -46,7 +46,30 @@
     </div>
   </div>
 
+  <div *ngIf="errorFromDevices">
+    <div fxFlex>
+      <mat-card-content fxLayout="column wrap" fxLayoutAlign="center start"
+        style="margin-bottom: 0px; overflow-wrap: anywhere">
+        <b style="font-size: 18px">Brand: {{ device?.brandName }}</b>
+        <br />
+        <p style="font-size: 18px">Device Tag: {{ device.name }}</p>
+        <br />
+        <b style="font-size: 18px">Product Model: {{ device?.productModel }}</b>
+        <br />
+        <sub><sup>We are having problems with your device, please contact us to
+            improve and fix it. this is a open source app for the community.
+            <br />
+            <br />
+            Feel free to open a ticket for solve the issue here:
+            <a href="https://github.com/Rober19/ewelink-web-ui/issues" target="_blank" rel="noopener noreferrer">Github
+              Repository</a>
+          </sup></sub>
+      </mat-card-content>
+    </div>
+  </div>
+
   <div class="containerIcon">
     <mat-icon svgIcon="preview" (click)="openJSONDialog()"></mat-icon>
   </div>
+
 </mat-card>

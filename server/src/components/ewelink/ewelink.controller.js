@@ -89,51 +89,56 @@ exports.GetDevices = async (req, res) => {
     //
     let report = [];
     //
-    for (const device of devices) {
-      let deviceToAdd = {
-        name: device.name,
-        deviceid: device.deviceid,
-        deviceInfo: device,
-        online: device.online,
-        request: false, // used in socket wsp
-        showBrand: device.showBrand,
-      };
-      //
-      if ('ck_channel_name' in device.tags) {
-        let deviceChannels = [];
-        Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
-          deviceChannels.push({
-            name: channel,
-            parentName: device.name,
-            parentDeviceId: device.deviceid,
-            channel: index,
-            switch: device.params.switches[index].switch,
-            state: device.params.switches[index].switch === 'on',
+    try {   
+
+      for (const device of devices) {
+        let deviceToAdd = {
+          name: device.name,
+          deviceid: device.deviceid,
+          deviceInfo: device,
+          online: device.online,
+          request: false, // used in socket wsp
+          showBrand: device.showBrand,
+        };
+        //
+        if ('ck_channel_name' in device.tags) {
+          let deviceChannels = [];
+          Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
+            deviceChannels.push({
+              name: channel,
+              parentName: device.name,
+              parentDeviceId: device.deviceid,
+              channel: index,
+              switch: device.params.switches[index].switch,
+              state: device.params.switches[index].switch === 'on',
+            });
           });
-        });
-        deviceToAdd = {
-          ...deviceToAdd,
-          isMultipleChannelDevice: true,
-          deviceChannels,
-        };
-      } else {
-        deviceToAdd = {
-          ...deviceToAdd,
-          isMultipleChannelDevice: false,
-          switch: device.params.switch,
-          // Device is turned off, it's offline
-          state: !device.online ? false : device.params.switch === 'on',
-        };
+          deviceToAdd = {
+            ...deviceToAdd,
+            isMultipleChannelDevice: true,
+            deviceChannels,
+          };
+        } else {
+          deviceToAdd = {
+            ...deviceToAdd,
+            isMultipleChannelDevice: false,
+            switch: device.params.switch,
+            // Device is turned off, it's offline
+            state: !device.online ? false : device.params.switch === 'on',
+          };
+        }
+        //
+        report.push(deviceToAdd);
       }
-      //
-      report.push(deviceToAdd);
+    } catch (error) {  
+      console.error(error)
     }
 
     res.send({
       status: 200,
       error: false,
       data: report,
-      // devicesRaw: devices
+      devicesRaw: devices
     });
     //
   } catch (error) {
