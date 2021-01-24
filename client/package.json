@@ -29,6 +29,7 @@
     "delay": "^4.3.0",
     "fs-extra": "^8.1.0",
     "hammerjs": "^2.0.8",
+    "ngx-json-viewer": "^3.0.2",
     "nonce": "^1.0.4",
     "quick-encrypt": "^1.0.8",
     "rxjs": "~6.6.3",

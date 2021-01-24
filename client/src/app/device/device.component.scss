@@ -11,7 +11,8 @@ mat-card-title > .img {
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 .iconOn {
-  @include md-icon-size(24px);
+  @include md-icon-size(32px);
+  cursor: pointer;
 }
 
 .mat-card {
