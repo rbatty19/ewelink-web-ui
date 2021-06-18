@@ -30,4 +30,4 @@ export class EventService {
   }
 }
 
-export type EventType = 'LISTEN_STATE_CHANNEL' | 'HOLA';
+export type EventType = 'LISTEN_STATE_CHANNEL' | 'SET_STATE_EVENT' | 'HOLA';

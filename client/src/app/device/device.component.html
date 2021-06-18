@@ -38,7 +38,7 @@
     </mat-card-content>
   </div>
 
-  <div (click)="changeManully(device)" [class.it-click]="device.online" [class.no-click-switch]="loading">
+  <div *ngIf="!errorFromDevices" (click)="changeManully(device)" [class.it-click]="device.online" [class.no-click-switch]="loading">
     <div class="device no-click" [class.no-click-switch]="!device.online" *ngIf="!device?.isMultipleChannelDevice">
       <input [disabled]="device.online" class="checkbox" type="checkbox" name="switch" [id]="device.deviceid"
         [checked]="checkControl.value" />
@@ -52,7 +52,7 @@
         style="margin-bottom: 0px; overflow-wrap: anywhere">
         <b style="font-size: 18px">Brand: {{ device?.brandName }}</b>
         <br />
-        <p style="font-size: 18px">Device Tag: {{ device.name }}</p>
+        <p style="font-size: 18px">Device Tag: {{ device?.name }}</p>
         <br />
         <b style="font-size: 18px">Product Model: {{ device?.productModel }}</b>
         <br />

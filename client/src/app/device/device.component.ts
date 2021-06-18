@@ -27,15 +27,15 @@ export class DeviceComponent implements OnInit {
 
   public loading: boolean;
 
-  constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService, private dialog: MatDialog ) { }
+  constructor(private switchService: SwitchService, public themeService: ThemeService, private eventService: EventService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
     if (!("state" in this.device)) return;
     //
-    this.labelState = this.device.deviceInfo.params.params.switch == StateEnum.on ? StateEnum.onText : StateEnum.offText;
+    this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
-    this.checkControl.setValue(this.device.deviceInfo.params.params.switch == StateEnum.on, { emitEvent: false });
+    this.checkControl.setValue(this.device.state, { emitEvent: false });
     //
     this.switchService.isNewState.subscribe(res => {
       if (res.deviceid === this.device.deviceid) {
@@ -65,14 +65,7 @@ export class DeviceComponent implements OnInit {
           //
           this.device.switch = !this.device.state ? StateEnum.on : StateEnum.off;
           this.device.state = !this.device.state;
-
-          // const device_p_data = {
-          //   deviceid: res.deviceid,
-          //   switch: this.device.state ? StateEnum.on : StateEnum.off,
-          //   state: this.device.state
-          // }
-          // console.log('emitido  LISTEN_STATE_CHANNEL', device_p_data)
-          // this.eventService.emit('LISTEN_STATE_CHANNEL', device_p_data)
+      
           this.stopLoading();
           return;
         }
@@ -169,12 +162,13 @@ export class DeviceComponent implements OnInit {
   }
 
   openJSONDialog() {
-    this.dialog.open(JsonPrettyDialogComponent, {
+   
+    return this.dialog.open(JsonPrettyDialogComponent, {
       autoFocus: false,
-      data: this.device.deviceInfo,
+      data: this.device,
       hasBackdrop: true,
       maxHeight: '90%',
-      panelClass: ['animate__animated','animate__zoomIn', 'dialog-responsive']
+      panelClass: ['animate__animated', 'animate__zoomIn', 'dialog-responsive']
     });
   }
 

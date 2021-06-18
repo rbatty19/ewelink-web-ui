@@ -60,7 +60,7 @@ export class SocketService {
             });
           }
       } catch (error) {
-        if (message !== 'pong') console.log({ error, message });
+        console.log({ error, message });
       }
     });
 
@@ -71,6 +71,7 @@ export class SocketService {
       this.WebSocket.send("ping");
     }, 120000);
 
+    return 'done';
   }
 
   sendMessageWebSocket({ deviceid, params }: any) {
@@ -79,12 +80,12 @@ export class SocketService {
 
     if (!user) return;
 
-    console.log(user)
+    console.log(params)
     //
     const payload = wssUpdatePayload({ apikey: user.apikey, params, deviceid });
-    //
-    // console.log(payload)
-    //
+    
+    console.log(payload)
+    
     this.WebSocket.send(payload);
   }
 

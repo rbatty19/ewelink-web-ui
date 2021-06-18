@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SwitchService, } from '../services/switch.service';
-import { Data, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Device } from '../models/device';
 import { StateEnum } from '../models/ewelink_enums';
@@ -22,8 +22,15 @@ export class SwitchComponent implements OnInit {
 
   @ViewChild("customNotification", { static: true }) customNotificationTmpl;
 
-  constructor(public switchService: SwitchService, private router: Router, private notifier: NotifierService,
-    private fb: FormBuilder, private socketService: SocketService, private eventService: EventService) {
+  constructor(
+    public switchService: SwitchService,
+    private router: Router,
+    private notifier: NotifierService,
+    private fb: FormBuilder,
+    private socketService: SocketService,
+    private eventService: EventService,
+    public activeRoute: ActivatedRoute,
+  ) {
     this.devicesGroup = this.fb.group({
       checkControls: this.fb.array([])
     });
@@ -38,7 +45,7 @@ export class SwitchComponent implements OnInit {
       template: this.customNotificationTmpl,
       id: 'loading'
     });
-    this.listenEvents();
+    // this.listenEvents();
   }
 
   listenEvents() {
@@ -57,6 +64,9 @@ export class SwitchComponent implements OnInit {
           })
           // console.log(this.devices)
           break;
+        case 'SET_STATE_EVENT':
+          this.changeState(res.data)
+          break;
       }
     });
   }
@@ -64,6 +74,7 @@ export class SwitchComponent implements OnInit {
   //this method is for changing the device state from button
   async changeState({ deviceid, params }) {
     try {
+      console.log('changeState ', { deviceid, params })
       //      
       this.socketService.sendMessageWebSocket({
         deviceid,
@@ -76,7 +87,10 @@ export class SwitchComponent implements OnInit {
   }
 
   // this method get all devices data
-  getAllDevices() {
+  async getAllDevices() {
+
+    const self = this;
+
     this.switchService.getDevices().subscribe(async (res: any) => {
 
       this.devices = res.data;
@@ -87,12 +101,48 @@ export class SwitchComponent implements OnInit {
       this.devicesControl.patchValue(Array.from(res.data, (v, k) => this.devicesControl.push(new FormControl(false))));
       await this.socketService.openWebSocket();
       this.notifier.hide('loading');
+
+
     }, err => {
       this.notifier.hide('loading');
       console.log(err);
       localStorage.clear();
       this.router.navigate(['/login']);
     });
+    test()
+
+    function test() {
+      self.activeRoute.queryParams.subscribe((res: any) => {
+        /**
+         * deviceid
+         * state         
+         */
+        const { deviceid, state } = res;
+
+        if (deviceid && state) {
+          console.log('LIST', self.devices)
+
+          setTimeout(() => {
+            self.changeState({
+              deviceid,
+              params:
+              {
+                switch: state
+              }
+            })
+          }, 3000);
+
+        }
+
+      }, err => {
+        // this.notifierService.notify('error', 'Unauthorized');
+        // this.isLoading = false;
+        console.log('BAD LIST')
+      })
+
+    }
+
+
   }
 
   get devicesControl(): FormArray {

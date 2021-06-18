@@ -89,8 +89,7 @@ exports.GetDevices = async (req, res) => {
     //
     let report = [];
     //
-    try {   
-
+    try {
       for (const device of devices) {
         let deviceToAdd = {
           name: device.name,
@@ -130,15 +129,20 @@ exports.GetDevices = async (req, res) => {
         //
         report.push(deviceToAdd);
       }
-    } catch (error) {  
-      console.error(error)
+    } catch (error) {
+      console.error(error);
+    }
+
+    //
+    if ('error' in devices) {
+      throw 'authorization error';
     }
 
     res.send({
       status: 200,
       error: false,
       data: report,
-      devicesRaw: devices
+      devicesRaw: devices,
     });
     //
   } catch (error) {
