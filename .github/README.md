@@ -1,5 +1,7 @@
 # Ewelink Web App
 
+<a href="https://simpleanalytics.com/?utm_source=ewelink-web.vercel.app&utm_content=badge" referrerpolicy="origin" target="_blank"><img src="https://simpleanalyticsbadge.com/ewelink-web.vercel.app?counter=true" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" /></a>
+
 I am pleased to show you a web tool for ewelink.
 
 ![image-20210111000940316](assets/image-20210111000940316.png)
