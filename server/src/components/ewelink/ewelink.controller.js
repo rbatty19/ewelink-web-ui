@@ -100,9 +100,10 @@ exports.GetDevices = async (req, res) => {
           showBrand: device.showBrand,
         };
         //
-        if ('ck_channel_name' in device.tags) {
+        if ('ck_channel_name' in device.tags || device.params?.switches) {
           let deviceChannels = [];
-          Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
+          let arrayChannels = device.tags?.ck_channel_name || device.params?.switches
+          Object.values(arrayChannels).forEach((channel, index) => {
             deviceChannels.push({
               name: channel,
               parentName: device.name,
