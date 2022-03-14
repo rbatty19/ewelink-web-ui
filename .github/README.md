@@ -1,9 +1,12 @@
 # Ewelink Web App
 
-I am pleased to show you a web tool for ewelink.
+
+<a href="https://simpleanalytics.com/?utm_source=ewelink-web.vercel.app&utm_content=badge" referrerpolicy="origin" target="_blank"><img src="https://simpleanalyticsbadge.com/ewelink-web.vercel.app?counter=true" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" /></a>
+
+I am pleased to show you the simplest web tool for ewelink.
 
 ![image-20210111000940316](assets/image-20210111000940316.png)
-
+> Full open-source project
 # Privacy
 
 The only use that we give to the credentials (email / password) is to obtain access from __ewelink__
@@ -79,3 +82,7 @@ const connection = new ewelink({
 **References**:
 
 > [eWelink API](https://ewelink-api.now.sh/docs/introduction)
+
+# Feedback
+
+Feel free to make suggestions or feedback through github issues or [Reddit](https://www.reddit.com/r/Echo_dev/)
