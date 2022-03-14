@@ -1,6 +1,6 @@
 ﻿node_modules
 package-lock.json
-
+.vscode/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
