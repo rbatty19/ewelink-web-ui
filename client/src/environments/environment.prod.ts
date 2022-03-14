@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  urlBase: 'https://server-ewelink-api.vercel.app',
+  urlBase: 'https://ewelink-web-app-server-instance-1.azurewebsites.net',
   menuLinks: [
     {
       link: 'https://github.com/Rober19/ewelink-web-ui',

@@ -100,14 +100,34 @@ exports.GetDevices = async (req, res) => {
           showBrand: device.showBrand,
         };
         //
-        if ('ck_channel_name' in device.tags || device.params?.switches) {
+        if ('ck_channel_name' in device.tags ) {
           let deviceChannels = [];
-          let arrayChannels = device.tags?.ck_channel_name || device.params?.switches
-          Object.values(arrayChannels).forEach((channel, index) => {
+          // [{ '0': '<NAME>', '1': '<NAME>' }]
+          console.log(device.tags.ck_channel_name)
+          Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
+            console.log(channel)
             deviceChannels.push({
               name: channel,
-              parentName: device.name,
-              parentDeviceId: device.deviceid,
+              parentName: device?.name,
+              parentDeviceId: device?.deviceid,
+              channel: index,
+              switch: device?.params?.switches[index].switch,
+              state: device?.params?.switches[index].switch === 'on',
+            });
+          });
+          deviceToAdd = {
+            ...deviceToAdd,
+            isMultipleChannelDevice: true,
+            deviceChannels,
+          };
+        } else if (device?.params?.switches?.length) {
+          let deviceChannels = [];
+          // 
+          Object.values(device?.params?.switches).forEach((channel, index) => {
+            deviceChannels.push({
+              name: index,
+              parentName: device?.name,
+              parentDeviceId: device?.deviceid,
               channel: index,
               switch: device.params.switches[index].switch,
               state: device.params.switches[index].switch === 'on',
