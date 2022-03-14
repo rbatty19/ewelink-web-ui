@@ -31,7 +31,7 @@ export class DeviceComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (!("state" in this.device)) return;
+    if (!("state" in this.device) && !this.device.isMultipleChannelDevice) return;
     //
     this.labelState = this.device.state ? StateEnum.onText : StateEnum.offText;
     //
@@ -65,7 +65,7 @@ export class DeviceComponent implements OnInit {
           //
           this.device.switch = !this.device.state ? StateEnum.on : StateEnum.off;
           this.device.state = !this.device.state;
-      
+
           this.stopLoading();
           return;
         }
@@ -162,7 +162,7 @@ export class DeviceComponent implements OnInit {
   }
 
   openJSONDialog() {
-   
+
     return this.dialog.open(JsonPrettyDialogComponent, {
       autoFocus: false,
       data: this.device,
