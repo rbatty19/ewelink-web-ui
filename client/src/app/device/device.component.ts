@@ -95,6 +95,8 @@ export class DeviceComponent implements OnInit {
    * @param device
    */
   changeManully(device) {
+    if (!device.online) return;
+
     this.initLoading();
     //
     const new_state = {
@@ -117,6 +119,8 @@ export class DeviceComponent implements OnInit {
    * @param device
    */
   changeChannelManully(item: any, device: any) {
+    if (!device.online) return;
+    //
     this.initLoading();
     //
     const new_channel_state = {
