@@ -7,6 +7,11 @@ I am pleased to show you the simplest web tool for ewelink.
 
 ![image-20210111000940316](assets/image-20210111000940316.png)
 > Full open-source project
+
+# Instructions
+
+Go to the [Guide](docs/INSTALL.md): `docs/INSTALL.md`
+
 # Privacy
 
 The only use that we give to the credentials (email / password) is to obtain access from __ewelink__
