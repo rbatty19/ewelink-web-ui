@@ -96,9 +96,18 @@ export class SwitchComponent implements OnInit {
       this.devices = res.data;
       if (!res?.data?.length) {
         this.devicesRaw = res.devicesRaw;
+        console.log(this.devicesRaw)
       }
+      console.log(this.devices)
 
-      this.devicesControl.patchValue(Array.from(res.data, (v, k) => this.devicesControl.push(new FormControl(false))));
+      this.devicesControl.patchValue(
+        Array.from(
+          res.data,
+          (v, k) => this.devicesControl.push(
+            new FormControl(false)
+          )
+        )
+      );
       await this.socketService.openWebSocket();
       this.notifier.hide('loading');
 

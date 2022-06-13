@@ -100,7 +100,7 @@ exports.GetDevices = async (req, res) => {
           showBrand: device.showBrand,
         };
         //
-        if ('ck_channel_name' in device.tags ) {
+        if (device?.tags?.ck_channel_name) {
           let deviceChannels = [];
           // [{ '0': '<NAME>', '1': '<NAME>' }]
           console.log(device.tags.ck_channel_name)
@@ -148,6 +148,7 @@ exports.GetDevices = async (req, res) => {
           };
         }
         //
+        console.log(deviceToAdd)
         report.push(deviceToAdd);
       }
     } catch (error) {
@@ -155,7 +156,7 @@ exports.GetDevices = async (req, res) => {
     }
 
     //
-    if ('error' in devices) {
+    if (devices?.error) {
       throw 'authorization error';
     }
 
