@@ -38,7 +38,7 @@ import { JsonPrettyDialogComponent } from './json-pretty-dialog/json-pretty-dial
     FlexLayoutModule,
     ReactiveFormsModule,
     MaterialDefinitionsModule,
-    NgxJsonViewerModule,
+    // NgxJsonViewerModule,
     NotifierModule.withConfig({
       position: { vertical: { position: 'top', distance: 74 }, horizontal: { position: "right" } }
     })
