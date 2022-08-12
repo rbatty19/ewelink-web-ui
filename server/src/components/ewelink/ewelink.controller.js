@@ -7,8 +7,8 @@ const ewelink = require('ewelink-api-fixed');
 const CryptoJS = require("crypto-js");
 
 const app_keys = {
-  APP_ID: 'oeVkj2lYFGnJu5XUtWisfW4utiN4u9Mq',
-  APP_SECRET: '6Nz4n0xA8s8qdxQf2GqurZj2Fs55FUvM',
+  // APP_ID: 'oeVkj2lYFGnJu5XUtWisfW4utiN4u9Mq',
+  // APP_SECRET: '6Nz4n0xA8s8qdxQf2GqurZj2Fs55FUvM',
 };
 
 function decryptData(data) {
@@ -39,7 +39,7 @@ exports.Login = async (req, res) => {
     const connection = new ewelink({
       email,
       password: pass,
-      // ...app_keys,
+      ...app_keys,
     });
 
     const data = await connection.getCredentials();
