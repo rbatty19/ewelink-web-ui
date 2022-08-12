@@ -16,7 +16,7 @@ import { CommonModule } from "@angular/common";
 import { MaterialDefinitionsModule } from "./material-definitions/material-definitions.module";
 import { MenuInfoComponent } from './menu-info/menu-info.component';
 import { JsonPrettyDialogComponent } from './json-pretty-dialog/json-pretty-dialog.component';
-import { NgxJsonViewerModule } from "ngx-json-viewer";
+// import { NgxJsonViewerModule } from "ngx-json-viewer";
 
 @NgModule({
   declarations: [
