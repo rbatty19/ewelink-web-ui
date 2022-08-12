@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
           // this.notifierService.notify('error', 'Unauthorized');
           // this.isLoading = false;
         })
-        console.log('LLEGÓ', { res })
+        console.log('response', { res })
       }
     })
   }
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home']);
         this.isLoading = false;
       }, err => {
-        this.notifierService.notify('error', 'Unauthorized');
+        this.notifierService.notify('error', 'Something Wrong');
         this.isLoading = false;
       })
     } else {

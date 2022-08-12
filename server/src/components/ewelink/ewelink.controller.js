@@ -3,12 +3,26 @@
  * PACKAGES
  *
  */
-const ewelink = require('ewelink-api');
+const ewelink = require('ewelink-api-fixed');
+const CryptoJS = require("crypto-js");
 
 const app_keys = {
   APP_ID: 'oeVkj2lYFGnJu5XUtWisfW4utiN4u9Mq',
   APP_SECRET: '6Nz4n0xA8s8qdxQf2GqurZj2Fs55FUvM',
 };
+
+function decryptData(data) {
+
+  try {
+    const bytes = CryptoJS.AES.decrypt(data, 'ewelink');
+    if (bytes.toString()) {
+      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    }
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 /**
  *
@@ -19,16 +33,19 @@ exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    const pass = decryptData(password)
+    console.log([password, pass])
+
     const connection = new ewelink({
       email,
-      password: Buffer.from(password, 'base64').toString(),
-      ...app_keys,
+      password: pass,
+      // ...app_keys,
     });
 
     const data = await connection.getCredentials();
-    //
-    // if (data.error) throw data.msg;
-    //
+
+    if (Number.isInteger(data?.error)) throw data;
+
     res.send({ status: 200, error: false, data });
   } catch (error) {
     res.status(400).send({ status: 400, error: true, data: error });
@@ -51,7 +68,7 @@ exports.GetDevice = async (req, res) => {
       });
 
       const status = await connection.getDevice(deviceid);
-      console.log(status);
+      // console.log(status);
 
       res.send({ status: 200, error: false, data: status });
     } else {
@@ -103,9 +120,9 @@ exports.GetDevices = async (req, res) => {
         if (device?.tags?.ck_channel_name) {
           let deviceChannels = [];
           // [{ '0': '<NAME>', '1': '<NAME>' }]
-          console.log(device.tags.ck_channel_name)
+          // console.log(device.tags.ck_channel_name)
           Object.values(device.tags.ck_channel_name).forEach((channel, index) => {
-            console.log(channel)
+            // console.log(channel)
             deviceChannels.push({
               name: channel,
               parentName: device?.name,
@@ -148,7 +165,7 @@ exports.GetDevices = async (req, res) => {
           };
         }
         //
-        console.log(deviceToAdd)
+        // console.log(deviceToAdd)
         report.push(deviceToAdd);
       }
     } catch (error) {
