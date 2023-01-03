@@ -16,20 +16,9 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   loginAuth(auth: AuthLogin): Observable<ResponseData<DataLogin>> {
-    auth.password = this.encryptData(auth.password)
     return this.http.post<ResponseData<DataLogin>>(environment.urlBase + '/login', auth).pipe(
       tap(res => localStorage.setItem('data', JSON.stringify(res.data))),
     );
   }
-
-  encryptData(data) {
-
-    try {
-      return CryptoJS.AES.encrypt(JSON.stringify(data), 'ewelink').toString();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
 
 }

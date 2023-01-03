@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  urlBase: 'http://localhost:4006',
   menuLinks: [
     {
       link: 'https://github.com/Rober19/ewelink-web-ui',
@@ -24,7 +25,6 @@ export const environment = {
       isSvg: true
     }
   ],
-  urlBase: 'http://localhost:4231',
   urlWebSocket: (region = "us") => `wss://${region}-pconnect3.coolkit.cc:8080/api/ws`,
   alternativeIcon: 'https://static.thenounproject.com/png/252447-200.png'
 };

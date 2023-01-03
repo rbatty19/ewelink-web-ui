@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "docker:reset": "sh scripts/pull_spinup-dev.sh",
+    "docker:start": "docker build . -t api-ewe-link && docker run -d -p 4006:4006 api-ewe-link"
   },
   "keywords": [],
   "author": "",

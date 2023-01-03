@@ -35,7 +35,7 @@ require('./components/ewelink/ewelink.routes')(app); // ewelink routes
  */
 app.use(errors());
 
-app.listen(process.env.PORT || 4231, () => {
+app.listen(process.env.PORT || 4006, () => {
   console.log('connected');
 });
 

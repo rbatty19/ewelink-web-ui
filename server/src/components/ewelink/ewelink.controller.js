@@ -11,19 +11,6 @@ const app_keys = {
   // APP_SECRET: '6Nz4n0xA8s8qdxQf2GqurZj2Fs55FUvM',
 };
 
-function decryptData(data) {
-
-  try {
-    const bytes = CryptoJS.AES.decrypt(data, 'ewelink');
-    if (bytes.toString()) {
-      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    }
-    return data;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 /**
  *
  * @param {*} req
@@ -33,12 +20,9 @@ exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const pass = decryptData(password)
-    console.log([password, pass])
-
     const connection = new ewelink({
       email,
-      password: pass,
+      password,
       ...app_keys,
     });
 
